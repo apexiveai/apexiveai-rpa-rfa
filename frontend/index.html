@@ -1,0 +1,5807 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070a16">
+<title>APEXIVE AI // MPT RPA CONTROL CENTER</title>
+
+<style>
+:root{
+  --bg:#070a16;
+  --panel:rgba(13,20,42,.88);
+  --line:rgba(102,190,255,.17);
+  --cyan:#43e8ff;
+  --blue:#4e83ff;
+  --violet:#a77bff;
+  --pink:#ff5fce;
+  --green:#4dffc3;
+  --amber:#ffc96a;
+  --red:#ff6689;
+  --text:#eef5ff;
+  --muted:#8295b8;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);background:var(--bg);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  font-size:13px;min-height:100vh;overflow-x:hidden;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:3px
+}
+::selection{background:#43e8ff40}
+
+/* PREMIUM CYBERPUNK YANGON */
+.city-background{
+  position:fixed;inset:0;z-index:-5;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 75% 12%,#3e238d45,transparent 34%),
+    radial-gradient(ellipse at 25% 42%,#006b9650,transparent 42%),
+    linear-gradient(180deg,#090d20 0%,#10152e 48%,#080b19 100%);
+}
+.city-background:before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(67,232,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(67,232,255,.055) 1px,transparent 1px);
+  background-size:48px 48px;
+  transform:perspective(650px) rotateX(58deg) scale(1.8);
+  transform-origin:bottom center;
+  top:20%;opacity:.6;
+  mask-image:linear-gradient(transparent,black 30%,black 85%,transparent);
+}
+.city-background:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,#070a16 0%,transparent 30%,transparent 75%,#070a16 100%),
+  linear-gradient(180deg,transparent 0%,#070a1660 65%,#070a16 100%);
+}
+.city-glow{
+  position:absolute;width:550px;height:550px;border-radius:50%;
+  filter:blur(110px);opacity:.13;background:var(--cyan);
+  left:30%;top:30%;animation:glowmove 14s ease-in-out infinite alternate;
+}
+.city-glow.two{
+  background:var(--pink);left:70%;top:5%;
+  width:380px;height:380px;animation-delay:-5s;
+}
+@keyframes glowmove{
+  from{transform:translate(-40px,0)}
+  to{transform:translate(90px,60px)}
+}
+#citySvg{
+  position:absolute;bottom:0;width:100%;height:48%;
+  opacity:.52;min-width:900px;
+}
+#particles{
+  position:absolute;inset:0;width:100%;height:100%;opacity:.7
+}
+.scanline{
+  position:fixed;inset:0;pointer-events:none;z-index:20;
+  background:repeating-linear-gradient(0deg,transparent 0px,
+  transparent 3px,rgba(120,200,255,.016) 4px);
+}
+</style>
+</head>
+<body>
+
+<div class="city-background" aria-hidden="true">
+  <div class="city-glow"></div>
+  <div class="city-glow two"></div>
+  <canvas id="particles"></canvas>
+
+  <svg id="citySvg" viewBox="0 0 1600 440" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="buildingFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#142a4d"/>
+        <stop offset="100%" stop-color="#060b1b"/>
+      </linearGradient>
+      <linearGradient id="buildingEdge" x1="0" y1="0" x2="1" y2="0">
+        <stop stop-color="#43e8ff" stop-opacity=".7"/>
+        <stop offset="100%" stop-color="#a77bff" stop-opacity=".1"/>
+      </linearGradient>
+    </defs>
+
+    <g fill="url(#buildingFill)" stroke="url(#buildingEdge)" stroke-width="1">
+      <path d="M0 440V220H65V165H110V245H155V190H205V270H260V125H280V95H290V125H325V260H370V175H415V225H460V120H480V90H495V120H525V260H575V205H625V155H650V205H685V270H730V95H750V60H762V95H790V245H835V180H885V225H925V140H950V105H965V140H1005V255H1045V190H1095V230H1135V120H1160V75H1174V120H1200V265H1250V185H1290V220H1335V115H1355V65H1368V115H1395V250H1440V175H1480V210H1525V145H1550V205H1600V440Z"/>
+    </g>
+
+    <g stroke="#43e8ff" stroke-opacity=".4" stroke-width="2" fill="none">
+      <path d="M270 95V35M755 60V10M958 105V50M1167 75V20M1362 65V8"/>
+      <path d="M280 110H318M480 135H515M740 115H783M930 158H995M1140 150H1190M1345 135H1390"/>
+    </g>
+
+    <g fill="#43e8ff" opacity=".55">
+      <path d="M72 245h5v9h-5zM90 245h5v9h-5zM165 210h5v9h-5zM185 210h5v9h-5z"/>
+      <path d="M270 150h5v9h-5zM295 150h5v9h-5zM270 180h5v9h-5zM295 180h5v9h-5z"/>
+      <path d="M468 145h5v9h-5zM490 145h5v9h-5zM468 175h5v9h-5zM490 175h5v9h-5z"/>
+      <path d="M745 125h5v9h-5zM770 125h5v9h-5zM745 155h5v9h-5zM770 155h5v9h-5z"/>
+      <path d="M940 175h5v9h-5zM975 175h5v9h-5zM940 205h5v9h-5zM975 205h5v9h-5z"/>
+      <path d="M1148 160h5v9h-5zM1173 160h5v9h-5zM1148 190h5v9h-5zM1173 190h5v9h-5z"/>
+      <path d="M1340 155h5v9h-5zM1370 155h5v9h-5zM1340 185h5v9h-5zM1370 185h5v9h-5z"/>
+    </g>
+
+    <g stroke="#a77bff" stroke-opacity=".4" fill="none">
+      <path d="M0 390L250 355L450 380L680 330L900 365L1110 320L1330 350L1600 305"/>
+      <path d="M0 405L250 370L450 395L680 345L900 380L1110 335L1330 365L1600 320"/>
+    </g>
+  </svg>
+</div>
+
+<div class="scanline"></div>
+<div class="app">
+
+<style>
+/* ===== APEXIVE RPA: MAIN LAYOUT ===== */
+:root {
+  --panel: rgba(8, 18, 34, .88);
+  --panel2: rgba(12, 27, 48, .9);
+  --line: rgba(55, 218, 255, .19);
+  --cyan: #37e7ff;
+  --blue: #568bff;
+  --purple: #b26bff;
+  --green: #4dffb5;
+  --orange: #ffbf69;
+  --red: #ff6485;
+  --muted: #8298b5;
+  --text: #e8f6ff;
+}
+
+* { box-sizing: border-box; }
+
+button, input, select, textarea { font: inherit; }
+
+button { cursor: pointer; }
+
+.app {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: 18px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 20px;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(5, 15, 30, .91);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 28px rgba(0, 204, 255, .07);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 220px;
+}
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cyan);
+  border-radius: 12px;
+  color: var(--cyan);
+  font-size: 21px;
+  font-weight: 900;
+  background: linear-gradient(135deg, rgba(55,231,255,.18), rgba(86,139,255,.08));
+  box-shadow: 0 0 18px rgba(55,231,255,.18);
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.brand-sub {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(77,255,181,.28);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--green);
+  background: rgba(77,255,181,.06);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+  animation: pulseDot 1.8s infinite;
+}
+
+@keyframes pulseDot {
+  50% { opacity: .35; }
+}
+
+.clock {
+  color: var(--cyan);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.icon-button {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: var(--text);
+  background: rgba(55,231,255,.04);
+}
+
+.icon-button:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 18px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+}
+
+.sidebar-label {
+  padding: 12px 10px 8px;
+  color: #58748f;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: #91a8c2;
+  background: transparent;
+  text-align: left;
+  font-size: 12px;
+  transition: .2s ease;
+}
+
+.nav-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 7px;
+  color: var(--cyan);
+  background: rgba(55,231,255,.08);
+  font-size: 14px;
+}
+
+.nav-item:hover {
+  color: var(--text);
+  background: rgba(55,231,255,.05);
+  border-color: var(--line);
+}
+
+.nav-item.active {
+  color: var(--cyan);
+  border-color: rgba(55,231,255,.28);
+  background: linear-gradient(90deg, rgba(55,231,255,.12), rgba(55,231,255,.025));
+  box-shadow: inset 3px 0 var(--cyan);
+}
+
+.sidebar-bottom {
+  margin-top: 24px;
+  padding: 14px 10px 8px;
+  border-top: 1px solid var(--line);
+}
+
+.sidebar-bottom-title {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.sidebar-bottom-text {
+  margin-top: 8px;
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sidebar-bottom small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.content {
+  min-width: 0;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 5px 0 22px;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--cyan);
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 800;
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(23px, 3vw, 31px);
+  font-weight: 900;
+  letter-spacing: -.5px;
+}
+
+.page-description {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.button-primary, .button-secondary, .button-danger {
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  transition: .2s;
+}
+
+.button-primary {
+  border: 1px solid var(--cyan);
+  color: #04111c;
+  background: var(--cyan);
+  box-shadow: 0 0 18px rgba(55,231,255,.13);
+}
+
+.button-primary:hover {
+  box-shadow: 0 0 25px rgba(55,231,255,.32);
+  transform: translateY(-1px);
+}
+
+.button-secondary {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(55,231,255,.04);
+}
+
+.button-secondary:hover { border-color: var(--cyan); }
+
+.button-danger {
+  border: 1px solid rgba(255,100,133,.4);
+  color: var(--red);
+  background: rgba(255,100,133,.07);
+}
+
+.panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  backdrop-filter: blur(15px);
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.panel-subtitle {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.mini-label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+  margin-bottom: 18px;
+}
+
+.kpi-card {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(12,31,54,.95), rgba(5,15,29,.93));
+}
+
+.kpi-card::after {
+  content: "";
+  position: absolute;
+  top: -45px;
+  right: -35px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--kpi-glow, rgba(55,231,255,.1));
+  filter: blur(20px);
+}
+
+.kpi-label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.kpi-value {
+  position: relative;
+  z-index: 1;
+  margin: 12px 0 8px;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-note {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.kpi-note strong { color: var(--green); }
+
+.section-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+canvas.chart {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.data-table th {
+  padding: 12px 10px;
+  color: #7893ad;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.data-table td {
+  padding: 13px 10px;
+  border-bottom: 1px solid rgba(55,218,255,.08);
+  color: #c6d9eb;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(55,231,255,.035);
+}
+
+.data-table tbody tr:last-child td { border-bottom: 0; }
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.badge-status.completed {
+  color: var(--green);
+  border-color: rgba(77,255,181,.25);
+  background: rgba(77,255,181,.06);
+}
+
+.badge-status.running {
+  color: var(--cyan);
+  border-color: rgba(55,231,255,.25);
+  background: rgba(55,231,255,.06);
+}
+
+.badge-status.failed {
+  color: var(--red);
+  border-color: rgba(255,100,133,.25);
+  background: rgba(255,100,133,.06);
+}
+
+.badge-status.pending {
+  color: var(--orange);
+  border-color: rgba(255,191,105,.25);
+  background: rgba(255,191,105,.06);
+}
+
+.empty-state {
+  padding: 28px 15px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 11px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 14px;
+}
+
+.field, .select-field, .textarea-field {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 12px;
+  outline: none;
+  color: var(--text);
+  background: rgba(4,13,26,.8);
+  font-size: 11px;
+}
+
+.field:focus, .select-field:focus, .textarea-field:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(55,231,255,.07);
+}
+
+.field::placeholder, .textarea-field::placeholder { color: #607994; }
+
+.select-field option {
+  color: var(--text);
+  background: #09182a;
+}
+
+.filter-input { max-width: 260px; }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 7px;
+}
+
+.pagination-buttons button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.activity-item {
+  display: grid;
+  grid-template-columns: 30px minmax(0,1fr);
+  gap: 10px;
+}
+
+.activity-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--cyan);
+  background: rgba(55,231,255,.07);
+}
+
+.activity-title {
+  color: #dcecf8;
+  font-size: 11px;
+}
+
+.activity-time {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.vendor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vendor-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px;
+  border: 1px solid rgba(55,218,255,.1);
+  border-radius: 10px;
+  background: rgba(55,231,255,.025);
+}
+
+.vendor-logo {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.vendor-info { flex: 1; min-width: 0; }
+
+.vendor-name {
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.vendor-desc {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 5px;
+  overflow: hidden;
+  margin-top: 8px;
+  border-radius: 99px;
+  background: rgba(130,152,181,.12);
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 14px 4px;
+  color: #526b84;
+  font-size: 9px;
+  letter-spacing: .5px;
+}
+
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .section-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .app { padding: 10px; }
+  .topbar { align-items: flex-start; padding: 13px; }
+  .brand { min-width: 0; }
+  .brand-name { font-size: 13px; }
+  .topbar-right { gap: 7px; }
+  .clock { display: none; }
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 8px;
+  }
+  .sidebar-label, .sidebar-bottom { display: none; }
+  .nav-item {
+    width: auto;
+    flex: 1 1 105px;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 8px;
+    font-size: 10px;
+  }
+  .nav-icon { width: 22px; height: 22px; }
+  .panel { padding: 13px; }
+  .page-title { font-size: 24px; }
+}
+
+@media (max-width: 430px) {
+  .kpi-grid { gap: 8px; }
+  .kpi-card { padding: 12px; }
+  .kpi-value { font-size: 23px; }
+  .status-pill { font-size: 9px; padding: 7px 9px; }
+}
+</style>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">A</div>
+    <div>
+      <div class="brand-name">APEXIVE <span style="color:var(--cyan)">RPA</span></div>
+      <div class="brand-sub">AUTONOMOUS PROCESS CONTROL</div>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span id="connectionStatus">CONNECTING</span>
+    </div>
+    <div class="clock" id="liveClock">--:--:--</div>
+    <button class="icon-button" id="refreshButton" title="Refresh dashboard">↻ Refresh</button>
+  </div>
+</header>
+
+<div class="main-layout">
+  <aside class="sidebar">
+    <div class="sidebar-label">CONTROL CENTER</div>
+
+    <button class="nav-item active" data-page="overview">
+      <span class="nav-icon">⌂</span> Overview
+    </button>
+    <button class="nav-item" data-page="traffic">
+      <span class="nav-icon">⌁</span> Traffic Monitor
+    </button>
+    <button class="nav-item" data-page="automations">
+      <span class="nav-icon">⚙</span> Automations
+    </button>
+    <button class="nav-item" data-page="runs">
+      <span class="nav-icon">▶</span> Execution Runs
+    </button>
+
+    <div class="sidebar-label">INFRASTRUCTURE</div>
+
+    <button class="nav-item" data-page="vendors">
+      <span class="nav-icon">▦</span> Robot Vendors
+    </button>
+    <button class="nav-item" data-page="analytics">
+      <span class="nav-icon">◈</span> Analytics
+    </button>
+    <button class="nav-item" data-page="audit">
+      <span class="nav-icon">☷</span> Audit Trail
+    </button>
+
+    <div class="sidebar-label">SYSTEM</div>
+
+    <button class="nav-item" data-page="settings">
+      <span class="nav-icon">⚒</span> Settings
+    </button>
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-bottom-title">ENVIRONMENT</div>
+      <div class="sidebar-bottom-text">YANGON / HLEDAN</div>
+      <small>APEXIVE AI · RPA PLATFORM</small>
+    </div>
+  </aside>
+
+  <main class="content">
+    <!-- Part 3 continues here -->
+
+<!-- ===== PART 3/6: DASHBOARD OVERVIEW ===== -->
+
+<section class="page active" id="page-overview">
+
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">APEXIVE AI / MPT / OPERATIONS</div>
+      <h1 class="page-title">RPA Control Center</h1>
+      <div class="page-description">
+        Autonomous automation monitoring and enterprise process intelligence.
+        <br>
+        <span style="color:var(--cyan)">Premium Cyber City / Hledan / Yangon, Myanmar</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="button-secondary" id="exportOverviewBtn">
+        ↓ Export CSV
+      </button>
+      <button class="button-primary" id="newAutomationBtn">
+        + New Automation
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+
+    <article class="kpi-card" style="--kpi-glow:rgba(55,231,255,.15)">
+      <div class="kpi-label">TOTAL AUTOMATIONS</div>
+      <div class="kpi-value" id="kpiAutomations">0</div>
+      <div class="kpi-note">Registered workflows</div>
+    </article>
+
+    <article class="kpi-card" style="--kpi-glow:rgba(77,255,181,.15)">
+      <div class="kpi-label">SUCCESSFUL EXECUTIONS</div>
+      <div class="kpi-value" id="kpiSuccess">0</div>
+      <div class="kpi-note"><strong id="kpiSuccessRate">0%</strong> success rate</div>
+    </article>
+
+    <article class="kpi-card" style="--kpi-glow:rgba(255,191,105,.15)">
+      <div class="kpi-label">PROCESSES RUNNING</div>
+      <div class="kpi-value" id="kpiRunning">0</div>
+      <div class="kpi-note">Currently executing</div>
+    </article>
+
+    <article class="kpi-card" style="--kpi-glow:rgba(178,107,255,.17)">
+      <div class="kpi-label">TIME SAVED</div>
+      <div class="kpi-value" id="kpiTimeSaved">0h</div>
+      <div class="kpi-note">Estimated from completed runs</div>
+    </article>
+
+  </div>
+
+  <!-- CHART AND VENDOR STATUS -->
+  <div class="section-grid">
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2 class="panel-title">Execution Intelligence</h2>
+          <div class="panel-subtitle">
+            Daily execution activity / demo data until API connected
+          </div>
+        </div>
+        <select class="select-field" id="chartPeriod"
+                style="width:auto;min-width:110px">
+          <option value="7">Last 7 days</option>
+          <option value="14">Last 14 days</option>
+          <option value="30">Last 30 days</option>
+        </select>
+      </div>
+
+      <div class="chart-wrap">
+        <canvas class="chart" id="executionChart"
+                aria-label="Daily RPA execution chart"></canvas>
+      </div>
+
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px">
+        <span class="mini-label">
+          <span style="color:var(--cyan)">●</span> Executions
+        </span>
+        <span class="mini-label">
+          <span style="color:var(--green)">●</span> Successful
+        </span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2 class="panel-title">RPA Vendor Status</h2>
+          <div class="panel-subtitle">Solution evaluation and integration readiness</div>
+        </div>
+        <span class="badge-status pending">RFQ</span>
+      </div>
+
+      <div class="vendor-list">
+
+        <div class="vendor-item">
+          <div class="vendor-logo">AI</div>
+          <div class="vendor-info">
+            <div class="vendor-name">AISWARE AI RPA</div>
+            <div class="vendor-desc">Quotation / technical support assessment</div>
+            <div class="progress-track">
+              <div class="progress-bar" style="width:65%"></div>
+            </div>
+          </div>
+          <span class="badge-status pending">Review</span>
+        </div>
+
+        <div class="vendor-item">
+          <div class="vendor-logo">CY</div>
+          <div class="vendor-info">
+            <div class="vendor-name">Cyclone RPA</div>
+            <div class="vendor-desc">Quotation / technical support assessment</div>
+            <div class="progress-track">
+              <div class="progress-bar"
+                   style="width:65%;background:linear-gradient(90deg,var(--purple),var(--cyan))"></div>
+            </div>
+          </div>
+          <span class="badge-status pending">Review</span>
+        </div>
+
+        <div style="padding:12px;border:1px dashed var(--line);border-radius:10px">
+          <div class="mini-label">CUSTOMER / PROJECT</div>
+          <div style="margin-top:8px;font-weight:800">Myanmar Posts and Telecommunications</div>
+          <div class="page-description" style="margin-top:5px">
+            MPT RPA Solutions RFQ
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- RECENT EXECUTIONS -->
+  <section class="panel" style="margin-bottom:18px">
+    <div class="panel-heading">
+      <div>
+        <h2 class="panel-title">Recent Execution Runs</h2>
+        <div class="panel-subtitle">
+          Workflow execution records and operational status
+        </div>
+      </div>
+      <button class="button-secondary" data-goto="runs">
+        View All Runs →
+      </button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>RUN ID</th>
+            <th>WORKFLOW</th>
+            <th>ENGINE</th>
+            <th>STARTED</th>
+            <th>DURATION</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody id="recentRunsBody">
+          <tr>
+            <td colspan="6" class="empty-state">
+              Loading execution records...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ACTIVITY -->
+  <div class="section-grid">
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2 class="panel-title">Operational Activity</h2>
+          <div class="panel-subtitle">Latest dashboard events</div>
+        </div>
+      </div>
+      <div class="activity-list" id="activityList">
+        <div class="empty-state">Loading activity...</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2 class="panel-title">System Health</h2>
+          <div class="panel-subtitle">Browser dashboard diagnostics</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:15px">
+
+        <div>
+          <div style="display:flex;justify-content:space-between;gap:8px">
+            <span class="mini-label">DASHBOARD RENDERING</span>
+            <span style="color:var(--green);font-size:10px">AVAILABLE</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" style="width:100%"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;gap:8px">
+            <span class="mini-label">BACKEND API</span>
+            <span id="healthApiStatus"
+                  style="color:var(--orange);font-size:10px">NOT CHECKED</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="healthApiBar"
+                 style="width:10%;background:var(--orange)"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;gap:8px">
+            <span class="mini-label">LIVE EXECUTION ENGINE</span>
+            <span style="color:var(--muted);font-size:10px">NOT VERIFIED</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar"
+                 style="width:5%;background:var(--muted)"></div>
+          </div>
+        </div>
+
+        <div style="padding:12px;border:1px solid var(--line);border-radius:9px">
+          <div class="mini-label">IMPORTANT</div>
+          <div style="margin-top:7px;color:var(--muted);font-size:10px;line-height:1.8">
+            A visible dashboard does not confirm that robots or backend
+            services are running. Live status requires a successful API check.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+</section>
+
+<!-- MPT PS / CS / VoLTE traffic monitor -->
+<style>
+.traffic-service-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+  margin-bottom:18px;
+}
+.traffic-value { color:var(--cyan); }
+.traffic-change { font-size:11px; font-weight:800; }
+.traffic-config-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.traffic-check-row {
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:14px 0;
+}
+.traffic-check-row label {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--text);
+  font-size:11px;
+}
+.traffic-check-row input { accent-color:var(--cyan); }
+.traffic-warning {
+  padding:12px;
+  border:1px solid rgba(255,191,105,.28);
+  border-radius:9px;
+  color:var(--orange);
+  background:rgba(255,191,105,.05);
+  font-size:11px;
+  line-height:1.7;
+}
+.traffic-connection {
+  display:grid;
+  grid-template-columns:minmax(160px,1fr) minmax(160px,1fr) auto;
+  gap:9px;
+  align-items:end;
+}
+@media(max-width:760px) {
+  .traffic-service-grid,.traffic-config-grid { grid-template-columns:1fr; }
+  .traffic-connection { grid-template-columns:1fr; }
+}
+</style>
+
+<section class="page" id="page-traffic">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">ᴛʏᴘᴇ ꜱᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ꜱᴛᴀʀᴛ</div>
+      <h1 class="page-title">MPT Traffic Monitor</h1>
+      <div class="page-description">
+        Hourly PS, CS and VoLTE traffic monitoring with configurable
+        fluctuation-triggered RPA job queueing.
+      </div>
+    </div>
+    <button class="button-secondary" id="trafficRefresh">↻ Refresh traffic</button>
+  </div>
+
+  <section class="panel" style="margin-bottom:18px">
+    <div class="panel-heading">
+      <div>
+        <h2 class="panel-title">Secure backend connection</h2>
+        <div class="panel-subtitle">API key is kept in memory for this page only.</div>
+      </div>
+      <span id="trafficConnectionStatus" class="badge-status pending">Not connected</span>
+    </div>
+    <div class="traffic-connection">
+      <label class="mini-label">API BASE URL
+        <input id="trafficApiBase" class="field" type="url"
+          placeholder="http://127.0.0.1:8000" autocomplete="url">
+      </label>
+      <label class="mini-label">API KEY
+        <input id="trafficApiKey" class="field" type="password"
+          placeholder="Backend API key" autocomplete="new-password">
+      </label>
+      <button class="button-primary" id="trafficConnect" type="button">Connect</button>
+    </div>
+  </section>
+
+  <div class="traffic-service-grid">
+    <article class="kpi-card">
+      <div class="kpi-label">PS TRAFFIC</div>
+      <div class="kpi-value traffic-value" id="trafficValuePS">—</div>
+      <div class="kpi-note" id="trafficChangePS">Waiting for telemetry</div>
+    </article>
+    <article class="kpi-card">
+      <div class="kpi-label">CS TRAFFIC</div>
+      <div class="kpi-value traffic-value" id="trafficValueCS">—</div>
+      <div class="kpi-note" id="trafficChangeCS">Waiting for telemetry</div>
+    </article>
+    <article class="kpi-card">
+      <div class="kpi-label">VoLTE TRAFFIC</div>
+      <div class="kpi-value traffic-value" id="trafficValueVoLTE">—</div>
+      <div class="kpi-note" id="trafficChangeVoLTE">Waiting for telemetry</div>
+    </article>
+  </div>
+
+  <div class="section-grid">
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2 class="panel-title">Hourly traffic samples</h2>
+          <div class="panel-subtitle">Latest authorized telemetry · units as supplied by MPT</div>
+        </div>
+        <span id="trafficLastSample" class="mini-label">No telemetry received</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr>
+            <th>TIME (MMT)</th><th>SOURCE</th><th>PS</th><th>CS</th><th>VoLTE</th>
+          </tr></thead>
+          <tbody id="trafficSamplesBody">
+            <tr><td colspan="5" class="empty-state">Connect to an approved API to load traffic samples.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2 class="panel-title">Monitoring &amp; auto-run policy</h2>
+          <div class="panel-subtitle">Changes are persisted by the MPT backend.</div>
+        </div>
+      </div>
+      <form id="trafficConfigForm">
+        <label class="traffic-check-row">
+          <span><input id="trafficMonitoringEnabled" type="checkbox"> Enable hourly monitoring</span>
+          <span><input id="trafficAutoRunEnabled" type="checkbox"> Queue robot job on fluctuation</span>
+        </label>
+        <div class="traffic-check-row" aria-label="Services to monitor">
+          <label><input type="checkbox" name="trafficService" value="PS" checked> PS</label>
+          <label><input type="checkbox" name="trafficService" value="CS" checked> CS</label>
+          <label><input type="checkbox" name="trafficService" value="VoLTE" checked> VoLTE</label>
+        </div>
+        <div class="traffic-config-grid">
+          <label class="mini-label">FLUCTUATION THRESHOLD (%)
+            <input id="trafficThreshold" class="field" type="number"
+              min="1" max="1000" step="1" value="20" required>
+          </label>
+          <label class="mini-label">RPA VENDOR
+            <select id="trafficVendor" class="select-field">
+              <option value="simulator">Simulator (test only)</option>
+              <option value="aisware">AISWARE AI RPA</option>
+              <option value="cyclone">Cyclone RPA</option>
+            </select>
+          </label>
+          <label class="mini-label">WORKFLOW KEY
+            <input id="trafficWorkflowKey" class="field" value="mpt_traffic_fluctuation"
+              minlength="2" maxlength="180" required>
+          </label>
+        </div>
+        <p class="mini-label">Samples are expected once per hour. A change is measured against the previous sample; increases and decreases both count.</p>
+        <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+          <button class="button-primary" type="submit">Save monitoring policy</button>
+          <span id="trafficConfigStatus" class="mini-label">Policy not loaded</span>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2 class="panel-title">Production readiness</h2>
+    <div class="traffic-warning" style="margin-top:12px">
+      Live values require an MPT-approved telemetry integration to post hourly
+      samples to <code>/api/traffic/samples</code> using the configured API key.
+      Fluctuations create queued RPA jobs; this workspace has no AISWARE/Cyclone
+      execution adapter, so a queued job is not a completed robot run. Confirm
+      thresholds, units, vendor workflow and operational approval before enabling
+      automatic queueing on production feeds.
+    </div>
+  </section>
+</section>
+
+<!-- ===== SHARED NOTIFICATION ===== -->
+<div id="toastContainer"
+     style="position:fixed;right:20px;bottom:20px;z-index:1000;
+            display:flex;flex-direction:column;gap:10px;max-width:min(360px,90vw)">
+</div>
+
+<!-- ===== PART 3 JAVASCRIPT ===== -->
+<script>
+"use strict";
+
+/*
+ * APEXIVE AI / MPT RPA CONTROL CENTER
+ *
+ * IMPORTANT:
+ * This part supplies the dashboard foundation and demo records.
+ * Actual robot execution requires a backend integration.
+ * Do not treat demo records as live MPT operational data.
+ */
+
+const RPA = (() => {
+
+  const state = {
+    page: "overview",
+    apiBase: "",
+    apiConnected: false,
+    chartDays: 7,
+    currentPage: 1,
+    pageSize: 10,
+    automations: [],
+    runs: [],
+    activities: [],
+    source: "demo"
+  };
+
+  const $ = id => document.getElementById(id);
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function notify(message, type = "info") {
+    const container = $("toastContainer");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    const color = type === "error" ? "var(--red)" :
+                  type === "success" ? "var(--green)" : "var(--cyan)";
+
+    toast.style.cssText = `
+      padding:13px 16px;
+      border:1px solid ${color};
+      border-radius:10px;
+      color:var(--text);
+      background:rgba(5,15,30,.97);
+      box-shadow:0 0 20px rgba(0,0,0,.25);
+      font-size:12px;
+      line-height:1.6;
+    `;
+
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    window.setTimeout(() => toast.remove(), 3500);
+  }
+
+  function updateClock() {
+    const clock = $("liveClock");
+    if (!clock) return;
+
+    clock.textContent = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Yangon",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).format(new Date()) + " MMT";
+  }
+
+  function statusClass(status) {
+    const value = String(status || "").toLowerCase();
+
+    if (["completed", "success", "successful"].includes(value)) {
+      return "completed";
+    }
+
+    if (["running", "in_progress", "executing"].includes(value)) {
+      return "running";
+    }
+
+    if (["failed", "error"].includes(value)) {
+      return "failed";
+    }
+
+    return "pending";
+  }
+
+  function statusBadge(status) {
+    const safe = escapeHTML(String(status || "Pending").replace(/_/g, " "));
+    return `<span class="badge-status ${statusClass(status)}">${safe}</span>`;
+  }
+
+  function makeDemoData() {
+    const now = Date.now();
+
+    state.automations = [
+      {
+        id: "WF-001",
+        name: "Invoice Processing",
+        engine: "AISWARE AI RPA",
+        status: "Running",
+        runs: 128,
+        success: 121
+      },
+      {
+        id: "WF-002",
+        name: "Customer Data Validation",
+        engine: "Cyclone RPA",
+        status: "Pending",
+        runs: 94,
+        success: 91
+      },
+      {
+        id: "WF-003",
+        name: "Document Classification",
+        engine: "AISWARE AI RPA",
+        status: "Completed",
+        runs: 76,
+        success: 74
+      },
+      {
+        id: "WF-004",
+        name: "Report Generation",
+        engine: "Cyclone RPA",
+        status: "Running",
+        runs: 51,
+        success: 48
+      }
+    ];
+
+    state.runs = Array.from({ length: 24 }, (_, index) => {
+      const statuses = [
+        "Completed", "Completed", "Running",
+        "Pending", "Failed", "Completed"
+      ];
+
+      const workflows = state.automations;
+      const workflow = workflows[index % workflows.length];
+      const status = statuses[index % statuses.length];
+
+      return {
+        id: "DEMO-" + String(index + 1).padStart(4, "0"),
+        workflow: workflow.name,
+        engine: workflow.engine,
+        startedAt: new Date(now - index * 17 * 60000).toISOString(),
+        durationSeconds: 25 + ((index * 37) % 240),
+        status,
+        demo: true
+      };
+    });
+
+    state.activities = [
+      {
+        icon: "◈",
+        title: "Dashboard initialized",
+        detail: "Local interface loaded",
+        time: new Date().toISOString()
+      },
+      {
+        icon: "⚙",
+        title: "Demo workflows prepared",
+        detail: "Sample data only, not live MPT records",
+        time: new Date(now - 60000).toISOString()
+      },
+      {
+        icon: "⌁",
+        title: "API connection pending",
+        detail: "Configure the backend origin to enable API checks",
+        time: new Date(now - 120000).toISOString()
+      }
+    ];
+  }
+
+  function formatTime(value) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) return "N/A";
+
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Yangon",
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }).format(date);
+  }
+
+  function formatDuration(seconds) {
+    const total = Math.max(0, Number(seconds) || 0);
+
+    if (total < 60) return Math.round(total) + "s";
+
+    const minutes = Math.floor(total / 60);
+    const remaining = Math.round(total % 60);
+
+    return minutes + "m " + remaining + "s";
+  }
+
+  function renderKpis() {
+    const total = state.automations.length;
+    const completed = state.runs.filter(
+      run => statusClass(run.status) === "completed"
+    ).length;
+
+    const running = state.runs.filter(
+      run => statusClass(run.status) === "running"
+    ).length;
+
+    const finished = state.runs.filter(
+      run => ["completed", "failed"].includes(statusClass(run.status))
+    ).length;
+
+    const rate = finished
+      ? Math.round(completed / finished * 100)
+      : 0;
+
+    const savedMinutes = state.runs.reduce((sum, run) => {
+      return sum + (
+        statusClass(run.status) === "completed" ? 4 : 0
+      );
+    }, 0);
+
+    $("kpiAutomations").textContent = total;
+    $("kpiSuccess").textContent = completed;
+    $("kpiRunning").textContent = running;
+    $("kpiSuccessRate").textContent = rate + "%";
+    $("kpiTimeSaved").textContent =
+      savedMinutes >= 60
+        ? (savedMinutes / 60).toFixed(1) + "h"
+        : savedMinutes + "m";
+  }
+
+  function renderRecentRuns() {
+    const tbody = $("recentRunsBody");
+    if (!tbody) return;
+
+    const recent = [...state.runs]
+      .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
+      .slice(0, 6);
+
+    if (!recent.length) {
+      tbody.innerHTML = `
+        <tr><td colspan="6" class="empty-state">
+          No execution records available.
+        </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = recent.map(run => `
+      <tr>
+        <td>${escapeHTML(run.id)}</td>
+        <td>${escapeHTML(run.workflow)}</td>
+        <td>${escapeHTML(run.engine)}</td>
+        <td>${escapeHTML(formatTime(run.startedAt))}</td>
+        <td>${escapeHTML(formatDuration(run.durationSeconds))}</td>
+        <td>${statusBadge(run.status)}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderActivities() {
+    const list = $("activityList");
+    if (!list) return;
+
+    list.innerHTML = state.activities.slice(0, 6).map(item => `
+      <div class="activity-item">
+        <div class="activity-icon">${escapeHTML(item.icon)}</div>
+        <div>
+          <div class="activity-title">${escapeHTML(item.title)}</div>
+          <div class="activity-time">
+            ${escapeHTML(item.detail)} · ${escapeHTML(formatTime(item.time))}
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function drawChart() {
+    const canvas = $("executionChart");
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width < 10 || rect.height < 10) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    const width = rect.width;
+    const height = rect.height;
+
+    const padding = { left: 32, right: 12, top: 16, bottom: 30 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+    const days = state.chartDays;
+
+    const values = Array.from({ length: days }, (_, i) => {
+      const day = new Date();
+      day.setDate(day.getDate() - (days - 1 - i));
+
+      const count = state.runs.filter(run => {
+        const date = new Date(run.startedAt);
+        return date.toDateString() === day.toDateString();
+      }).length;
+
+      return {
+        label: (day.getMonth() + 1) + "/" + day.getDate(),
+        total: count,
+        success: state.runs.filter(run => {
+          const date = new Date(run.startedAt);
+          return date.toDateString() === day.toDateString()
+            && statusClass(run.status) === "completed";
+        }).length
+      };
+    });
+
+    const maxValue = Math.max(
+      5,
+      ...values.map(item => item.total)
+    );
+
+    ctx.clearRect(0, 0, width, height);
+
+    ctx.font = "10px Segoe UI, Arial";
+    ctx.textBaseline = "middle";
+
+    for (let i = 0; i <= 4; i++) {
+      const y = padding.top + chartHeight * i / 4;
+
+      ctx.strokeStyle = "rgba(130,152,181,.14)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, y);
+      ctx.lineTo(width - padding.right, y);
+      ctx.stroke();
+
+      ctx.fillStyle = "#8298b5";
+      ctx.textAlign = "right";
+      ctx.fillText(
+        String(Math.round(maxValue * (4 - i) / 4)),
+        padding.left - 8,
+        y
+      );
+    }
+
+    const slot = chartWidth / days;
+    const barWidth = Math.max(3, Math.min(20, slot * .42));
+
+    values.forEach((item, i) => {
+      const x = padding.left + slot * i + slot / 2;
+      const barHeight = item.total / maxValue * chartHeight;
+
+      const gradient = ctx.createLinearGradient(
+        0, padding.top + chartHeight - barHeight,
+        0, padding.top + chartHeight
+      );
+
+      gradient.addColorStop(0, "#37e7ff");
+      gradient.addColorStop(1, "rgba(55,231,255,.12)");
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(
+        x - barWidth / 2,
+        padding.top + chartHeight - barHeight,
+        barWidth,
+        barHeight
+      );
+
+      ctx.fillStyle = "#8298b5";
+      ctx.textAlign = "center";
+
+      const showLabel = days <= 14 || i % 3 === 0;
+
+      if (showLabel) {
+        ctx.fillText(
+          item.label,
+          x,
+          height - padding.bottom + 16
+        );
+      }
+    });
+
+    // Success trend line
+    ctx.beginPath();
+
+    values.forEach((item, i) => {
+      const x = padding.left + slot * i + slot / 2;
+      const y = padding.top + chartHeight
+        - item.success / maxValue * chartHeight;
+
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+
+    ctx.strokeStyle = "#4dffb5";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    values.forEach((item, i) => {
+      const x = padding.left + slot * i + slot / 2;
+      const y = padding.top + chartHeight
+        - item.success / maxValue * chartHeight;
+
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#4dffb5";
+      ctx.fill();
+    });
+  }
+
+  function renderDashboard() {
+    renderKpis();
+    renderRecentRuns();
+    renderActivities();
+
+    requestAnimationFrame(drawChart);
+  }
+
+  function showPage(pageName) {
+    const page = String(pageName || "overview");
+
+    document.querySelectorAll(".nav-item[data-page]").forEach(button => {
+      button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    document.querySelectorAll(".page").forEach(section => {
+      section.classList.toggle(
+        "active",
+        section.id === "page-" + page
+      );
+    });
+
+    state.page = page;
+
+    if (!$("page-" + page)) {
+      notify("Page " + page + " will be available in a later part.", "info");
+      return;
+    }
+
+    if (page === "overview" || page === "analytics") {
+      requestAnimationFrame(drawChart);
+    }
+  }
+
+  function exportCSV() {
+    const headers = [
+      "Run ID",
+      "Workflow",
+      "Engine",
+      "Started At",
+      "Duration Seconds",
+      "Status",
+      "Data Source"
+    ];
+
+    const rows = state.runs.map(run => [
+      run.id,
+      run.workflow,
+      run.engine,
+      run.startedAt,
+      run.durationSeconds,
+      run.status,
+      run.demo ? "DEMO" : "API"
+    ]);
+
+    const csvCell = value =>
+      '"' + String(value ?? "").replace(/"/g, '""') + '"';
+
+    const csv = [headers, ...rows]
+      .map(row => row.map(csvCell).join(","))
+      .join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "apexive-rpa-executions.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+    notify("Execution CSV exported.", "success");
+  }
+
+  function configureApi(baseUrl) {
+    const cleaned = String(baseUrl || "").trim().replace(/\/+$/, "");
+
+    if (!cleaned) {
+      notify("Enter your backend API origin first.", "error");
+      return false;
+    }
+
+    try {
+      const url = new URL(cleaned);
+
+      if (!["http:", "https:"].includes(url.protocol)) {
+        throw new Error("Unsupported URL protocol");
+      }
+
+      if (
+        url.protocol === "http:"
+        && location.protocol === "https:"
+        && url.hostname !== "localhost"
+        && url.hostname !== "127.0.0.1"
+      ) {
+        notify("Use an HTTPS API URL on an HTTPS website.", "error");
+        return false;
+      }
+
+      state.apiBase = url.origin;
+      state.apiConnected = false;
+
+      return true;
+    } catch {
+      notify("Invalid API URL. Example: https://api.example.com", "error");
+      return false;
+    }
+  }
+
+  async function checkApi() {
+    const status = $("connectionStatus");
+    const health = $("healthApiStatus");
+    const bar = $("healthApiBar");
+
+    if (!state.apiBase) {
+      if (status) {
+        status.textContent = "DEMO MODE";
+        status.style.color = "var(--orange)";
+      }
+
+      if (health) {
+        health.textContent = "NOT CONFIGURED";
+        health.style.color = "var(--orange)";
+      }
+
+      if (bar) {
+        bar.style.width = "10%";
+        bar.style.background = "var(--orange)";
+      }
+
+      state.apiConnected = false;
+      return false;
+    }
+
+    if (status) status.textContent = "CHECKING API";
+
+    try {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(
+        () => controller.abort(),
+        7000
+      );
+
+      let response;
+
+      try {
+        response = await fetch(state.apiBase + "/", {
+          method: "GET",
+          signal: controller.signal,
+          headers: { "Accept": "application/json" }
+        });
+      } finally {
+        window.clearTimeout(timeout);
+      }
+
+      // A 404 at the root still proves the server responded.
+      // It does not prove that the RPA endpoints are available.
+      state.apiConnected = response.ok || response.status === 404;
+
+      if (status) {
+        status.textContent = state.apiConnected
+          ? "API REACHABLE"
+          : "API ERROR";
+
+        status.style.color = state.apiConnected
+          ? "var(--green)"
+          : "var(--red)";
+      }
+
+      if (health) {
+        health.textContent = state.apiConnected
+          ? "SERVER RESPONDED"
+          : "HTTP " + response.status;
+
+        health.style.color = state.apiConnected
+          ? "var(--green)"
+          : "var(--red)";
+      }
+
+      if (bar) {
+        bar.style.width = state.apiConnected ? "100%" : "20%";
+        bar.style.background = state.apiConnected
+          ? "var(--green)"
+          : "var(--red)";
+      }
+
+      return state.apiConnected;
+
+    } catch (error) {
+      state.apiConnected = false;
+
+      if (status) {
+        status.textContent = "API OFFLINE";
+        status.style.color = "var(--red)";
+      }
+
+      if (health) {
+        health.textContent = error.name === "AbortError"
+          ? "TIMEOUT"
+          : "UNREACHABLE";
+
+        health.style.color = "var(--red)";
+      }
+
+      if (bar) {
+        bar.style.width = "10%";
+        bar.style.background = "var(--red)";
+      }
+
+      return false;
+    }
+  }
+
+  function init() {
+    makeDemoData();
+    renderDashboard();
+    updateClock();
+
+    window.setInterval(updateClock, 1000);
+
+    document.querySelectorAll(".nav-item[data-page]").forEach(button => {
+      button.addEventListener("click", () => {
+        showPage(button.dataset.page);
+      });
+    });
+
+    document.querySelectorAll("[data-goto]").forEach(button => {
+      button.addEventListener("click", () => {
+        showPage(button.dataset.goto);
+      });
+    });
+
+    $("chartPeriod")?.addEventListener("change", event => {
+      const days = Number(event.target.value);
+
+      state.chartDays = [7, 14, 30].includes(days) ? days : 7;
+
+      drawChart();
+    });
+
+    $("refreshButton")?.addEventListener("click", async () => {
+      await checkApi();
+      renderDashboard();
+      notify("Dashboard refreshed.", "success");
+    });
+
+    $("exportOverviewBtn")?.addEventListener("click", exportCSV);
+
+    $("newAutomationBtn")?.addEventListener("click", () => {
+      showPage("automations");
+    });
+
+    window.addEventListener("resize", () => {
+      if (state.page === "overview" || state.page === "analytics") {
+        drawChart();
+      }
+    });
+
+    checkApi();
+
+    console.info(
+      "[APEXIVE RPA] Dashboard initialized in demo mode."
+    );
+  }
+
+  return {
+    state,
+    init,
+    notify,
+    showPage,
+    configureApi,
+    checkApi,
+    renderDashboard,
+    drawChart,
+    exportCSV
+  };
+
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  RPA.init();
+});
+
+/* ===== END PART 3/6 ===== */
+</script>
+<!-- Part 4 continues here -->
+
+<!-- ===== PART 4/6: AUTOMATIONS + EXECUTION RUNS ===== -->
+
+<section class="page" id="page-automations">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">RPA MANAGEMENT / WORKFLOWS</div>
+      <h2>Automations Management</h2>
+      <p class="muted">Manage, search and monitor your RPA workflows.</p>
+    </div>
+    <button class="btn btn-primary" id="p4AddAutomation">+ New Automation</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL WORKFLOWS</span>
+      <strong class="stat-value" id="p4AutoTotal">12</strong>
+      <span class="stat-foot">Registered workflows</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">ACTIVE</span>
+      <strong class="stat-value" id="p4AutoActive">8</strong>
+      <span class="stat-foot">Enabled workflows</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">PAUSED</span>
+      <strong class="stat-value" id="p4AutoPaused">4</strong>
+      <span class="stat-foot">Currently disabled</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Workflow Registry</h3>
+        <p class="muted">Search and filter registered automations.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input id="p4AutoSearch" class="form-control"
+        type="search" placeholder="Search workflow name or ID...">
+      <select id="p4AutoStatus" class="form-control">
+        <option value="all">All statuses</option>
+        <option value="Active">Active</option>
+        <option value="Paused">Paused</option>
+      </select>
+      <select id="p4AutoVendor" class="form-control">
+        <option value="all">All vendors</option>
+        <option value="AISWARE AI RPA">AISWARE</option>
+        <option value="Cyclone RPA">Cyclone</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>WORKFLOW</th>
+            <th>VENDOR</th>
+            <th>TRIGGER</th>
+            <th>LAST RUN</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="p4AutoTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p4AutoPagination"></div>
+    <div class="muted" id="p4AutoInfo"></div>
+  </div>
+
+  <div class="panel" id="p4AutoFormPanel" hidden>
+    <div class="panel-header">
+      <h3 id="p4AutoFormTitle">Create Automation</h3>
+      <button class="btn btn-secondary" id="p4AutoCancel">Close</button>
+    </div>
+    <form id="p4AutoForm">
+      <input type="hidden" id="p4AutoEditId">
+      <div class="form-grid">
+        <label>
+          Workflow Name
+          <input class="form-control" id="p4AutoName"
+            required maxlength="80" placeholder="e.g. Billing Reconciliation">
+        </label>
+        <label>
+          Vendor
+          <select class="form-control" id="p4AutoVendorInput" required>
+            <option value="AISWARE AI RPA">AISWARE AI RPA</option>
+            <option value="Cyclone RPA">Cyclone RPA</option>
+          </select>
+        </label>
+        <label>
+          Trigger
+          <select class="form-control" id="p4AutoTrigger" required>
+            <option value="Scheduled">Scheduled</option>
+            <option value="Manual">Manual</option>
+            <option value="API">API</option>
+            <option value="Event-based">Event-based</option>
+          </select>
+        </label>
+        <label>
+          Initial Status
+          <select class="form-control" id="p4AutoStatusInput" required>
+            <option value="Active">Active</option>
+            <option value="Paused">Paused</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Save Workflow</button>
+        <button class="btn btn-secondary" type="button"
+          id="p4AutoCancel2">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="page" id="page-runs">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">EXECUTION CENTER / HISTORY</div>
+      <h2>Execution Runs</h2>
+      <p class="muted">Browse execution history, results and durations.</p>
+    </div>
+    <button class="btn btn-secondary" id="p4ExportRuns">Export CSV</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL RUN RECORDS</span>
+      <strong class="stat-value" id="p4RunTotal">1,000</strong>
+      <span class="stat-foot">Demo history dataset</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">SUCCESSFUL</span>
+      <strong class="stat-value" id="p4RunSuccess">—</strong>
+      <span class="stat-foot">Across current records</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">FAILED</span>
+      <strong class="stat-value" id="p4RunFailed">—</strong>
+      <span class="stat-foot">Across current records</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Run History</h3>
+        <p class="muted">10 records per page, up to 100 pages.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input class="form-control" type="search" id="p4RunSearch"
+        placeholder="Search run ID or workflow...">
+      <select class="form-control" id="p4RunStatus">
+        <option value="all">All results</option>
+        <option value="Success">Success</option>
+        <option value="Failed">Failed</option>
+        <option value="Running">Running</option>
+      </select>
+      <select class="form-control" id="p4RunVendor">
+        <option value="all">All vendors</option>
+        <option value="AISWARE AI RPA">AISWARE</option>
+        <option value="Cyclone RPA">Cyclone</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>RUN ID</th>
+            <th>WORKFLOW</th>
+            <th>VENDOR</th>
+            <th>STARTED AT</th>
+            <th>DURATION</th>
+            <th>RESULT</th>
+          </tr>
+        </thead>
+        <tbody id="p4RunTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p4RunPagination"></div>
+    <div class="muted" id="p4RunInfo"></div>
+  </div>
+</section>
+
+<style>
+/* Part 4 styles */
+.page-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.page-heading h2 { margin:6px 0; }
+.eyebrow {
+  font-size:11px;
+  letter-spacing:2px;
+  opacity:.7;
+}
+.muted {
+  opacity:.68;
+  font-size:12px;
+  margin-top:5px;
+}
+.toolbar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0;
+}
+.toolbar .form-control {
+  flex:1 1 180px;
+  min-width:140px;
+}
+.form-control {
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border:1px solid var(--border, rgba(100,220,255,.2));
+  border-radius:8px;
+  background:var(--panel, rgba(10,20,40,.75));
+  color:inherit;
+  font:inherit;
+}
+.form-control option {
+  background:#10182a;
+  color:#fff;
+}
+.table-wrap { width:100%; overflow-x:auto; }
+.table-wrap table { width:100%; border-collapse:collapse; }
+.table-wrap th, .table-wrap td {
+  padding:12px 10px;
+  text-align:left;
+  border-bottom:1px solid var(--border, rgba(100,220,255,.13));
+  white-space:nowrap;
+  font-size:12px;
+}
+.table-wrap th {
+  font-size:10px;
+  letter-spacing:1px;
+  opacity:.7;
+}
+.p4-status {
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:10px;
+  border:1px solid currentColor;
+}
+.p4-good { color:#47e6b1; }
+.p4-bad { color:#ff7285; }
+.p4-warn { color:#ffd166; }
+.p4-actions { display:flex; gap:6px; }
+.p4-btn {
+  border:1px solid var(--border, rgba(100,220,255,.25));
+  border-radius:6px;
+  background:transparent;
+  color:inherit;
+  padding:6px 9px;
+  cursor:pointer;
+  font-size:11px;
+}
+.p4-btn:hover { background:rgba(80,200,255,.12); }
+.pagination {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:18px 0 12px;
+}
+.pagination button {
+  min-width:31px;
+  padding:6px 8px;
+  border:1px solid var(--border, rgba(100,220,255,.2));
+  border-radius:6px;
+  background:transparent;
+  color:inherit;
+  cursor:pointer;
+}
+.pagination button.active {
+  background:rgba(40,190,255,.2);
+  border-color:#35caff;
+}
+.pagination button:disabled { opacity:.35; cursor:not-allowed; }
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.form-grid label { font-size:12px; display:grid; gap:8px; }
+.form-actions { display:flex; gap:10px; margin-top:18px; }
+#p4AutoFormPanel { margin-top:18px; }
+#p4AutoFormPanel[hidden] { display:none; }
+@media(max-width:650px) {
+  .form-grid { grid-template-columns:1fr; }
+  .page-heading { align-items:flex-start; }
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const PAGE_SIZE = 10;
+  const MAX_PAGES = 100;
+
+  const workflowNames = [
+    "Subscriber Data Validation",
+    "Billing Reconciliation",
+    "SIM Registration Review",
+    "Customer Ticket Routing",
+    "Network Incident Report",
+    "Payment Record Sync",
+    "Customer Profile Update",
+    "Daily Usage Report",
+    "Invoice Verification",
+    "Service Request Processing",
+    "Account Status Audit",
+    "Data Quality Check"
+  ];
+
+  let workflows = workflowNames.map((name, i) => ({
+    id: "WF-" + String(i + 1).padStart(3, "0"),
+    name,
+    vendor: i % 2 === 0 ? "AISWARE AI RPA" : "Cyclone RPA",
+    trigger: ["Scheduled", "Manual", "API", "Event-based"][i % 4],
+    status: i < 8 ? "Active" : "Paused",
+    lastRun: "2026-10-" + String(15 - (i % 12)).padStart(2, "0")
+      + " " + String(9 + (i % 9)).padStart(2, "0") + ":30"
+  }));
+
+  const runs = Array.from({ length: 1000 }, (_, i) => {
+    const wf = workflows[i % workflows.length];
+    const statuses = ["Success", "Success", "Success", "Failed", "Running"];
+    const day = String(15 - (i % 12)).padStart(2, "0");
+    const hour = String((i * 7) % 24).padStart(2, "0");
+    const minute = String((i * 13) % 60).padStart(2, "0");
+    return {
+      id: "RUN-" + String(i + 1).padStart(5, "0"),
+      workflow: wf.name,
+      vendor: wf.vendor,
+      started: "2026-10-" + day + " " + hour + ":" + minute,
+      duration: (12 + ((i * 17) % 260)) + "s",
+      status: statuses[i % statuses.length]
+    };
+  });
+
+  let autoPage = 1;
+  let runPage = 1;
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    }[ch]));
+  }
+
+  function notify(message) {
+    const toast = $("toastContainer");
+    if (toast) {
+      const item = document.createElement("div");
+      item.textContent = message;
+      item.style.cssText =
+        "padding:12px 16px;margin-top:8px;border:1px solid #35caff;" +
+        "border-radius:8px;background:#10182a;color:#fff;";
+      toast.appendChild(item);
+      setTimeout(() => item.remove(), 3000);
+    } else {
+      alert(message);
+    }
+  }
+
+  function statusBadge(status) {
+    const cls = status === "Success" || status === "Active"
+      ? "p4-good"
+      : status === "Failed" ? "p4-bad" : "p4-warn";
+    return '<span class="p4-status ' + cls + '">' +
+      escapeHTML(status) + "</span>";
+  }
+
+  function pagination(containerId, page, pages, callback) {
+    const el = $(containerId);
+    el.innerHTML = "";
+    if (!pages) return;
+
+    function add(label, target, active, disabled) {
+      const btn = document.createElement("button");
+      btn.textContent = label;
+      if (active) btn.classList.add("active");
+      btn.disabled = !!disabled;
+      btn.addEventListener("click", () => callback(target));
+      el.appendChild(btn);
+    }
+
+    add("‹", Math.max(1, page - 1), false, page === 1);
+
+    let start = Math.max(1, page - 3);
+    let end = Math.min(pages, start + 6);
+    start = Math.max(1, end - 6);
+
+    if (start > 1) {
+      add("1", 1, page === 1, false);
+      if (start > 2) {
+        const dots = document.createElement("span");
+        dots.textContent = "…";
+        dots.style.padding = "6px";
+        el.appendChild(dots);
+      }
+    }
+
+    for (let p = start; p <= end; p++) {
+      add(String(p), p, p === page, false);
+    }
+
+    if (end < pages) {
+      if (end < pages - 1) {
+        const dots = document.createElement("span");
+        dots.textContent = "…";
+        dots.style.padding = "6px";
+        el.appendChild(dots);
+      }
+      add(String(pages), pages, page === pages, false);
+    }
+
+    add("›", Math.min(pages, page + 1), false, page === pages);
+  }
+
+  function renderAutomations() {
+    const search = $("p4AutoSearch").value.trim().toLowerCase();
+    const status = $("p4AutoStatus").value;
+    const vendor = $("p4AutoVendor").value;
+
+    const filtered = workflows.filter(w =>
+      (w.name.toLowerCase().includes(search) ||
+       w.id.toLowerCase().includes(search)) &&
+      (status === "all" || w.status === status) &&
+      (vendor === "all" || w.vendor === vendor)
+    );
+
+    $("p4AutoTotal").textContent = workflows.length;
+    $("p4AutoActive").textContent =
+      workflows.filter(w => w.status === "Active").length;
+    $("p4AutoPaused").textContent =
+      workflows.filter(w => w.status === "Paused").length;
+
+    const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    autoPage = Math.min(autoPage, pages);
+    const visible = filtered.slice(
+      (autoPage - 1) * PAGE_SIZE, autoPage * PAGE_SIZE
+    );
+
+    $("p4AutoTable").innerHTML = visible.length
+      ? visible.map(w => `
+        <tr>
+          <td>
+            <strong>${escapeHTML(w.name)}</strong><br>
+            <span class="muted">${escapeHTML(w.id)}</span>
+          </td>
+          <td>${escapeHTML(w.vendor)}</td>
+          <td>${escapeHTML(w.trigger)}</td>
+          <td>${escapeHTML(w.lastRun)}</td>
+          <td>${statusBadge(w.status)}</td>
+          <td>
+            <div class="p4-actions">
+              <button class="p4-btn" data-p4-edit="${escapeHTML(w.id)}">Edit</button>
+              <button class="p4-btn" data-p4-toggle="${escapeHTML(w.id)}">
+                ${w.status === "Active" ? "Pause" : "Activate"}
+              </button>
+              <button class="p4-btn" data-p4-delete="${escapeHTML(w.id)}">Delete</button>
+            </div>
+          </td>
+        </tr>`).join("")
+      : '<tr><td colspan="6">No workflows match your filters.</td></tr>';
+
+    pagination("p4AutoPagination", autoPage, pages, p => {
+      autoPage = p;
+      renderAutomations();
+    });
+
+    $("p4AutoInfo").textContent =
+      "Showing " + (filtered.length ? (autoPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(autoPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length + " workflows";
+  }
+
+  function renderRuns() {
+    const search = $("p4RunSearch").value.trim().toLowerCase();
+    const status = $("p4RunStatus").value;
+    const vendor = $("p4RunVendor").value;
+
+    const filtered = runs.filter(r =>
+      (r.id.toLowerCase().includes(search) ||
+       r.workflow.toLowerCase().includes(search)) &&
+      (status === "all" || r.status === status) &&
+      (vendor === "all" || r.vendor === vendor)
+    );
+
+    $("p4RunTotal").textContent = runs.length.toLocaleString();
+    $("p4RunSuccess").textContent =
+      runs.filter(r => r.status === "Success").length.toLocaleString();
+    $("p4RunFailed").textContent =
+      runs.filter(r => r.status === "Failed").length.toLocaleString();
+
+    const pages = Math.min(
+      MAX_PAGES, Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+    );
+    runPage = Math.min(runPage, pages);
+    const visible = filtered.slice(
+      (runPage - 1) * PAGE_SIZE, runPage * PAGE_SIZE
+    );
+
+    $("p4RunTable").innerHTML = visible.length
+      ? visible.map(r => `
+        <tr>
+          <td><strong>${escapeHTML(r.id)}</strong></td>
+          <td>${escapeHTML(r.workflow)}</td>
+          <td>${escapeHTML(r.vendor)}</td>
+          <td>${escapeHTML(r.started)}</td>
+          <td>${escapeHTML(r.duration)}</td>
+          <td>${statusBadge(r.status)}</td>
+        </tr>`).join("")
+      : '<tr><td colspan="6">No execution records match your filters.</td></tr>';
+
+    pagination("p4RunPagination", runPage, pages, p => {
+      runPage = p;
+      renderRuns();
+    });
+
+    $("p4RunInfo").textContent =
+      "Showing " + (filtered.length ? (runPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(runPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length.toLocaleString() + " runs";
+  }
+
+  function openForm(workflow) {
+    $("p4AutoFormPanel").hidden = false;
+    $("p4AutoFormTitle").textContent =
+      workflow ? "Edit Automation" : "Create Automation";
+    $("p4AutoEditId").value = workflow ? workflow.id : "";
+    $("p4AutoName").value = workflow ? workflow.name : "";
+    $("p4AutoVendorInput").value =
+      workflow ? workflow.vendor : "AISWARE AI RPA";
+    $("p4AutoTrigger").value = workflow ? workflow.trigger : "Scheduled";
+    $("p4AutoStatusInput").value = workflow ? workflow.status : "Active";
+    $("p4AutoName").focus();
+    $("p4AutoFormPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function closeForm() {
+    $("p4AutoFormPanel").hidden = true;
+    $("p4AutoForm").reset();
+    $("p4AutoEditId").value = "";
+  }
+
+  $("p4AddAutomation").addEventListener("click", () => openForm(null));
+  $("p4AutoCancel").addEventListener("click", closeForm);
+  $("p4AutoCancel2").addEventListener("click", closeForm);
+
+  $("p4AutoForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const editId = $("p4AutoEditId").value;
+    const name = $("p4AutoName").value.trim();
+    if (!name) return;
+
+    const data = {
+      name,
+      vendor: $("p4AutoVendorInput").value,
+      trigger: $("p4AutoTrigger").value,
+      status: $("p4AutoStatusInput").value
+    };
+
+    if (editId) {
+      const item = workflows.find(w => w.id === editId);
+      if (item) Object.assign(item, data);
+      notify("Workflow updated in this demo.");
+    } else {
+      workflows.unshift({
+        id: "WF-" + String(Date.now()).slice(-6),
+        ...data,
+        lastRun: "Not run yet"
+      });
+      notify("Workflow created in this demo.");
+    }
+
+    autoPage = 1;
+    closeForm();
+    renderAutomations();
+  });
+
+  $("p4AutoTable").addEventListener("click", event => {
+    const edit = event.target.closest("[data-p4-edit]");
+    const toggle = event.target.closest("[data-p4-toggle]");
+    const del = event.target.closest("[data-p4-delete]");
+
+    if (edit) {
+      const item = workflows.find(w => w.id === edit.dataset.p4Edit);
+      if (item) openForm(item);
+    }
+
+    if (toggle) {
+      const item = workflows.find(w => w.id === toggle.dataset.p4Toggle);
+      if (item) {
+        item.status = item.status === "Active" ? "Paused" : "Active";
+        renderAutomations();
+        notify("Workflow status changed in this demo.");
+      }
+    }
+
+    if (del) {
+      const item = workflows.find(w => w.id === del.dataset.p4Delete);
+      if (item && confirm('Delete "' + item.name + '" from this demo list?')) {
+        workflows = workflows.filter(w => w.id !== item.id);
+        renderAutomations();
+        notify("Workflow removed from this demo.");
+      }
+    }
+  });
+
+  ["p4AutoSearch", "p4AutoStatus", "p4AutoVendor"].forEach(id => {
+    $(id).addEventListener("input", () => {
+      autoPage = 1;
+      renderAutomations();
+    });
+    $(id).addEventListener("change", () => {
+      autoPage = 1;
+      renderAutomations();
+    });
+  });
+
+  ["p4RunSearch", "p4RunStatus", "p4RunVendor"].forEach(id => {
+    $(id).addEventListener("input", () => {
+      runPage = 1;
+      renderRuns();
+    });
+    $(id).addEventListener("change", () => {
+      runPage = 1;
+      renderRuns();
+    });
+  });
+
+  $("p4ExportRuns").addEventListener("click", () => {
+    const header = ["Run ID", "Workflow", "Vendor", "Started At", "Duration", "Result"];
+    const rows = runs.map(r => [
+      r.id, r.workflow, r.vendor, r.started, r.duration, r.status
+    ]);
+
+    const csv = [header, ...rows].map(row =>
+      row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "apexive-rpa-demo-runs.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    notify("Demo execution history exported.");
+  });
+
+  renderAutomations();
+  renderRuns();
+})();
+</script>
+
+<!-- ===== END PART 4/6 ===== -->
+
+<!-- Part 5 continues here -->
+
+<!-- ===== PART 4/6: AUTOMATIONS + EXECUTION RUNS ===== -->
+
+<section class="page" id="page-automations">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">RPA MANAGEMENT / WORKFLOWS</div>
+      <h2>Automations Management</h2>
+      <p class="muted">Manage, search and monitor your RPA workflows.</p>
+    </div>
+    <button class="btn btn-primary" id="p4AddAutomation">+ New Automation</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL WORKFLOWS</span>
+      <strong class="stat-value" id="p4AutoTotal">12</strong>
+      <span class="stat-foot">Registered workflows</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">ACTIVE</span>
+      <strong class="stat-value" id="p4AutoActive">8</strong>
+      <span class="stat-foot">Enabled workflows</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">PAUSED</span>
+      <strong class="stat-value" id="p4AutoPaused">4</strong>
+      <span class="stat-foot">Currently disabled</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Workflow Registry</h3>
+        <p class="muted">Search and filter registered automations.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input id="p4AutoSearch" class="form-control"
+        type="search" placeholder="Search workflow name or ID...">
+      <select id="p4AutoStatus" class="form-control">
+        <option value="all">All statuses</option>
+        <option value="Active">Active</option>
+        <option value="Paused">Paused</option>
+      </select>
+      <select id="p4AutoVendor" class="form-control">
+        <option value="all">All vendors</option>
+        <option value="AISWARE AI RPA">AISWARE</option>
+        <option value="Cyclone RPA">Cyclone</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>WORKFLOW</th>
+            <th>VENDOR</th>
+            <th>TRIGGER</th>
+            <th>LAST RUN</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="p4AutoTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p4AutoPagination"></div>
+    <div class="muted" id="p4AutoInfo"></div>
+  </div>
+
+  <div class="panel" id="p4AutoFormPanel" hidden>
+    <div class="panel-header">
+      <h3 id="p4AutoFormTitle">Create Automation</h3>
+      <button class="btn btn-secondary" id="p4AutoCancel">Close</button>
+    </div>
+    <form id="p4AutoForm">
+      <input type="hidden" id="p4AutoEditId">
+      <div class="form-grid">
+        <label>
+          Workflow Name
+          <input class="form-control" id="p4AutoName"
+            required maxlength="80" placeholder="e.g. Billing Reconciliation">
+        </label>
+        <label>
+          Vendor
+          <select class="form-control" id="p4AutoVendorInput" required>
+            <option value="AISWARE AI RPA">AISWARE AI RPA</option>
+            <option value="Cyclone RPA">Cyclone RPA</option>
+          </select>
+        </label>
+        <label>
+          Trigger
+          <select class="form-control" id="p4AutoTrigger" required>
+            <option value="Scheduled">Scheduled</option>
+            <option value="Manual">Manual</option>
+            <option value="API">API</option>
+            <option value="Event-based">Event-based</option>
+          </select>
+        </label>
+        <label>
+          Initial Status
+          <select class="form-control" id="p4AutoStatusInput" required>
+            <option value="Active">Active</option>
+            <option value="Paused">Paused</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Save Workflow</button>
+        <button class="btn btn-secondary" type="button"
+          id="p4AutoCancel2">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="page" id="page-runs">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">EXECUTION CENTER / HISTORY</div>
+      <h2>Execution Runs</h2>
+      <p class="muted">Browse execution history, results and durations.</p>
+    </div>
+    <button class="btn btn-secondary" id="p4ExportRuns">Export CSV</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL RUN RECORDS</span>
+      <strong class="stat-value" id="p4RunTotal">1,000</strong>
+      <span class="stat-foot">Demo history dataset</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">SUCCESSFUL</span>
+      <strong class="stat-value" id="p4RunSuccess">—</strong>
+      <span class="stat-foot">Across current records</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">FAILED</span>
+      <strong class="stat-value" id="p4RunFailed">—</strong>
+      <span class="stat-foot">Across current records</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Run History</h3>
+        <p class="muted">10 records per page, up to 100 pages.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input class="form-control" type="search" id="p4RunSearch"
+        placeholder="Search run ID or workflow...">
+      <select class="form-control" id="p4RunStatus">
+        <option value="all">All results</option>
+        <option value="Success">Success</option>
+        <option value="Failed">Failed</option>
+        <option value="Running">Running</option>
+      </select>
+      <select class="form-control" id="p4RunVendor">
+        <option value="all">All vendors</option>
+        <option value="AISWARE AI RPA">AISWARE</option>
+        <option value="Cyclone RPA">Cyclone</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>RUN ID</th>
+            <th>WORKFLOW</th>
+            <th>VENDOR</th>
+            <th>STARTED AT</th>
+            <th>DURATION</th>
+            <th>RESULT</th>
+          </tr>
+        </thead>
+        <tbody id="p4RunTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p4RunPagination"></div>
+    <div class="muted" id="p4RunInfo"></div>
+  </div>
+</section>
+
+<style>
+/* Part 4 styles */
+.page-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.page-heading h2 { margin:6px 0; }
+.eyebrow {
+  font-size:11px;
+  letter-spacing:2px;
+  opacity:.7;
+}
+.muted {
+  opacity:.68;
+  font-size:12px;
+  margin-top:5px;
+}
+.toolbar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0;
+}
+.toolbar .form-control {
+  flex:1 1 180px;
+  min-width:140px;
+}
+.form-control {
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border:1px solid var(--border, rgba(100,220,255,.2));
+  border-radius:8px;
+  background:var(--panel, rgba(10,20,40,.75));
+  color:inherit;
+  font:inherit;
+}
+.form-control option {
+  background:#10182a;
+  color:#fff;
+}
+.table-wrap { width:100%; overflow-x:auto; }
+.table-wrap table { width:100%; border-collapse:collapse; }
+.table-wrap th, .table-wrap td {
+  padding:12px 10px;
+  text-align:left;
+  border-bottom:1px solid var(--border, rgba(100,220,255,.13));
+  white-space:nowrap;
+  font-size:12px;
+}
+.table-wrap th {
+  font-size:10px;
+  letter-spacing:1px;
+  opacity:.7;
+}
+.p4-status {
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:10px;
+  border:1px solid currentColor;
+}
+.p4-good { color:#47e6b1; }
+.p4-bad { color:#ff7285; }
+.p4-warn { color:#ffd166; }
+.p4-actions { display:flex; gap:6px; }
+.p4-btn {
+  border:1px solid var(--border, rgba(100,220,255,.25));
+  border-radius:6px;
+  background:transparent;
+  color:inherit;
+  padding:6px 9px;
+  cursor:pointer;
+  font-size:11px;
+}
+.p4-btn:hover { background:rgba(80,200,255,.12); }
+.pagination {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:18px 0 12px;
+}
+.pagination button {
+  min-width:31px;
+  padding:6px 8px;
+  border:1px solid var(--border, rgba(100,220,255,.2));
+  border-radius:6px;
+  background:transparent;
+  color:inherit;
+  cursor:pointer;
+}
+.pagination button.active {
+  background:rgba(40,190,255,.2);
+  border-color:#35caff;
+}
+.pagination button:disabled { opacity:.35; cursor:not-allowed; }
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.form-grid label { font-size:12px; display:grid; gap:8px; }
+.form-actions { display:flex; gap:10px; margin-top:18px; }
+#p4AutoFormPanel { margin-top:18px; }
+#p4AutoFormPanel[hidden] { display:none; }
+@media(max-width:650px) {
+  .form-grid { grid-template-columns:1fr; }
+  .page-heading { align-items:flex-start; }
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const PAGE_SIZE = 10;
+  const MAX_PAGES = 100;
+
+  const workflowNames = [
+    "Subscriber Data Validation",
+    "Billing Reconciliation",
+    "SIM Registration Review",
+    "Customer Ticket Routing",
+    "Network Incident Report",
+    "Payment Record Sync",
+    "Customer Profile Update",
+    "Daily Usage Report",
+    "Invoice Verification",
+    "Service Request Processing",
+    "Account Status Audit",
+    "Data Quality Check"
+  ];
+
+  let workflows = workflowNames.map((name, i) => ({
+    id: "WF-" + String(i + 1).padStart(3, "0"),
+    name,
+    vendor: i % 2 === 0 ? "AISWARE AI RPA" : "Cyclone RPA",
+    trigger: ["Scheduled", "Manual", "API", "Event-based"][i % 4],
+    status: i < 8 ? "Active" : "Paused",
+    lastRun: "2026-10-" + String(15 - (i % 12)).padStart(2, "0")
+      + " " + String(9 + (i % 9)).padStart(2, "0") + ":30"
+  }));
+
+  const runs = Array.from({ length: 1000 }, (_, i) => {
+    const wf = workflows[i % workflows.length];
+    const statuses = ["Success", "Success", "Success", "Failed", "Running"];
+    const day = String(15 - (i % 12)).padStart(2, "0");
+    const hour = String((i * 7) % 24).padStart(2, "0");
+    const minute = String((i * 13) % 60).padStart(2, "0");
+    return {
+      id: "RUN-" + String(i + 1).padStart(5, "0"),
+      workflow: wf.name,
+      vendor: wf.vendor,
+      started: "2026-10-" + day + " " + hour + ":" + minute,
+      duration: (12 + ((i * 17) % 260)) + "s",
+      status: statuses[i % statuses.length]
+    };
+  });
+
+  let autoPage = 1;
+  let runPage = 1;
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    }[ch]));
+  }
+
+  function notify(message) {
+    const toast = $("toastContainer");
+    if (toast) {
+      const item = document.createElement("div");
+      item.textContent = message;
+      item.style.cssText =
+        "padding:12px 16px;margin-top:8px;border:1px solid #35caff;" +
+        "border-radius:8px;background:#10182a;color:#fff;";
+      toast.appendChild(item);
+      setTimeout(() => item.remove(), 3000);
+    } else {
+      alert(message);
+    }
+  }
+
+  function statusBadge(status) {
+    const cls = status === "Success" || status === "Active"
+      ? "p4-good"
+      : status === "Failed" ? "p4-bad" : "p4-warn";
+    return '<span class="p4-status ' + cls + '">' +
+      escapeHTML(status) + "</span>";
+  }
+
+  function pagination(containerId, page, pages, callback) {
+    const el = $(containerId);
+    el.innerHTML = "";
+    if (!pages) return;
+
+    function add(label, target, active, disabled) {
+      const btn = document.createElement("button");
+      btn.textContent = label;
+      if (active) btn.classList.add("active");
+      btn.disabled = !!disabled;
+      btn.addEventListener("click", () => callback(target));
+      el.appendChild(btn);
+    }
+
+    add("‹", Math.max(1, page - 1), false, page === 1);
+
+    let start = Math.max(1, page - 3);
+    let end = Math.min(pages, start + 6);
+    start = Math.max(1, end - 6);
+
+    if (start > 1) {
+      add("1", 1, page === 1, false);
+      if (start > 2) {
+        const dots = document.createElement("span");
+        dots.textContent = "…";
+        dots.style.padding = "6px";
+        el.appendChild(dots);
+      }
+    }
+
+    for (let p = start; p <= end; p++) {
+      add(String(p), p, p === page, false);
+    }
+
+    if (end < pages) {
+      if (end < pages - 1) {
+        const dots = document.createElement("span");
+        dots.textContent = "…";
+        dots.style.padding = "6px";
+        el.appendChild(dots);
+      }
+      add(String(pages), pages, page === pages, false);
+    }
+
+    add("›", Math.min(pages, page + 1), false, page === pages);
+  }
+
+  function renderAutomations() {
+    const search = $("p4AutoSearch").value.trim().toLowerCase();
+    const status = $("p4AutoStatus").value;
+    const vendor = $("p4AutoVendor").value;
+
+    const filtered = workflows.filter(w =>
+      (w.name.toLowerCase().includes(search) ||
+       w.id.toLowerCase().includes(search)) &&
+      (status === "all" || w.status === status) &&
+      (vendor === "all" || w.vendor === vendor)
+    );
+
+    $("p4AutoTotal").textContent = workflows.length;
+    $("p4AutoActive").textContent =
+      workflows.filter(w => w.status === "Active").length;
+    $("p4AutoPaused").textContent =
+      workflows.filter(w => w.status === "Paused").length;
+
+    const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    autoPage = Math.min(autoPage, pages);
+    const visible = filtered.slice(
+      (autoPage - 1) * PAGE_SIZE, autoPage * PAGE_SIZE
+    );
+
+    $("p4AutoTable").innerHTML = visible.length
+      ? visible.map(w => `
+        <tr>
+          <td>
+            <strong>${escapeHTML(w.name)}</strong><br>
+            <span class="muted">${escapeHTML(w.id)}</span>
+          </td>
+          <td>${escapeHTML(w.vendor)}</td>
+          <td>${escapeHTML(w.trigger)}</td>
+          <td>${escapeHTML(w.lastRun)}</td>
+          <td>${statusBadge(w.status)}</td>
+          <td>
+            <div class="p4-actions">
+              <button class="p4-btn" data-p4-edit="${escapeHTML(w.id)}">Edit</button>
+              <button class="p4-btn" data-p4-toggle="${escapeHTML(w.id)}">
+                ${w.status === "Active" ? "Pause" : "Activate"}
+              </button>
+              <button class="p4-btn" data-p4-delete="${escapeHTML(w.id)}">Delete</button>
+            </div>
+          </td>
+        </tr>`).join("")
+      : '<tr><td colspan="6">No workflows match your filters.</td></tr>';
+
+    pagination("p4AutoPagination", autoPage, pages, p => {
+      autoPage = p;
+      renderAutomations();
+    });
+
+    $("p4AutoInfo").textContent =
+      "Showing " + (filtered.length ? (autoPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(autoPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length + " workflows";
+  }
+
+  function renderRuns() {
+    const search = $("p4RunSearch").value.trim().toLowerCase();
+    const status = $("p4RunStatus").value;
+    const vendor = $("p4RunVendor").value;
+
+    const filtered = runs.filter(r =>
+      (r.id.toLowerCase().includes(search) ||
+       r.workflow.toLowerCase().includes(search)) &&
+      (status === "all" || r.status === status) &&
+      (vendor === "all" || r.vendor === vendor)
+    );
+
+    $("p4RunTotal").textContent = runs.length.toLocaleString();
+    $("p4RunSuccess").textContent =
+      runs.filter(r => r.status === "Success").length.toLocaleString();
+    $("p4RunFailed").textContent =
+      runs.filter(r => r.status === "Failed").length.toLocaleString();
+
+    const pages = Math.min(
+      MAX_PAGES, Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+    );
+    runPage = Math.min(runPage, pages);
+    const visible = filtered.slice(
+      (runPage - 1) * PAGE_SIZE, runPage * PAGE_SIZE
+    );
+
+    $("p4RunTable").innerHTML = visible.length
+      ? visible.map(r => `
+        <tr>
+          <td><strong>${escapeHTML(r.id)}</strong></td>
+          <td>${escapeHTML(r.workflow)}</td>
+          <td>${escapeHTML(r.vendor)}</td>
+          <td>${escapeHTML(r.started)}</td>
+          <td>${escapeHTML(r.duration)}</td>
+          <td>${statusBadge(r.status)}</td>
+        </tr>`).join("")
+      : '<tr><td colspan="6">No execution records match your filters.</td></tr>';
+
+    pagination("p4RunPagination", runPage, pages, p => {
+      runPage = p;
+      renderRuns();
+    });
+
+    $("p4RunInfo").textContent =
+      "Showing " + (filtered.length ? (runPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(runPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length.toLocaleString() + " runs";
+  }
+
+  function openForm(workflow) {
+    $("p4AutoFormPanel").hidden = false;
+    $("p4AutoFormTitle").textContent =
+      workflow ? "Edit Automation" : "Create Automation";
+    $("p4AutoEditId").value = workflow ? workflow.id : "";
+    $("p4AutoName").value = workflow ? workflow.name : "";
+    $("p4AutoVendorInput").value =
+      workflow ? workflow.vendor : "AISWARE AI RPA";
+    $("p4AutoTrigger").value = workflow ? workflow.trigger : "Scheduled";
+    $("p4AutoStatusInput").value = workflow ? workflow.status : "Active";
+    $("p4AutoName").focus();
+    $("p4AutoFormPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function closeForm() {
+    $("p4AutoFormPanel").hidden = true;
+    $("p4AutoForm").reset();
+    $("p4AutoEditId").value = "";
+  }
+
+  $("p4AddAutomation").addEventListener("click", () => openForm(null));
+  $("p4AutoCancel").addEventListener("click", closeForm);
+  $("p4AutoCancel2").addEventListener("click", closeForm);
+
+  $("p4AutoForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const editId = $("p4AutoEditId").value;
+    const name = $("p4AutoName").value.trim();
+    if (!name) return;
+
+    const data = {
+      name,
+      vendor: $("p4AutoVendorInput").value,
+      trigger: $("p4AutoTrigger").value,
+      status: $("p4AutoStatusInput").value
+    };
+
+    if (editId) {
+      const item = workflows.find(w => w.id === editId);
+      if (item) Object.assign(item, data);
+      notify("Workflow updated in this demo.");
+    } else {
+      workflows.unshift({
+        id: "WF-" + String(Date.now()).slice(-6),
+        ...data,
+        lastRun: "Not run yet"
+      });
+      notify("Workflow created in this demo.");
+    }
+
+    autoPage = 1;
+    closeForm();
+    renderAutomations();
+  });
+
+  $("p4AutoTable").addEventListener("click", event => {
+    const edit = event.target.closest("[data-p4-edit]");
+    const toggle = event.target.closest("[data-p4-toggle]");
+    const del = event.target.closest("[data-p4-delete]");
+
+    if (edit) {
+      const item = workflows.find(w => w.id === edit.dataset.p4Edit);
+      if (item) openForm(item);
+    }
+
+    if (toggle) {
+      const item = workflows.find(w => w.id === toggle.dataset.p4Toggle);
+      if (item) {
+        item.status = item.status === "Active" ? "Paused" : "Active";
+        renderAutomations();
+        notify("Workflow status changed in this demo.");
+      }
+    }
+
+    if (del) {
+      const item = workflows.find(w => w.id === del.dataset.p4Delete);
+      if (item && confirm('Delete "' + item.name + '" from this demo list?')) {
+        workflows = workflows.filter(w => w.id !== item.id);
+        renderAutomations();
+        notify("Workflow removed from this demo.");
+      }
+    }
+  });
+
+  ["p4AutoSearch", "p4AutoStatus", "p4AutoVendor"].forEach(id => {
+    $(id).addEventListener("input", () => {
+      autoPage = 1;
+      renderAutomations();
+    });
+    $(id).addEventListener("change", () => {
+      autoPage = 1;
+      renderAutomations();
+    });
+  });
+
+  ["p4RunSearch", "p4RunStatus", "p4RunVendor"].forEach(id => {
+    $(id).addEventListener("input", () => {
+      runPage = 1;
+      renderRuns();
+    });
+    $(id).addEventListener("change", () => {
+      runPage = 1;
+      renderRuns();
+    });
+  });
+
+  $("p4ExportRuns").addEventListener("click", () => {
+    const header = ["Run ID", "Workflow", "Vendor", "Started At", "Duration", "Result"];
+    const rows = runs.map(r => [
+      r.id, r.workflow, r.vendor, r.started, r.duration, r.status
+    ]);
+
+    const csv = [header, ...rows].map(row =>
+      row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "apexive-rpa-demo-runs.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    notify("Demo execution history exported.");
+  });
+
+  renderAutomations();
+  renderRuns();
+})();
+</script>
+
+<!-- ===== END PART 4/6 ===== -->
+
+<!-- Part 5 continues here -->
+
+<!-- ===== PART 4/6: AUTOMATIONS + EXECUTION RUNS ===== -->
+
+<section class="page" id="page-automations">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">RPA MANAGEMENT / WORKFLOWS</div>
+      <h2>Automations Management</h2>
+      <p class="muted">Manage, search and monitor your RPA workflows.</p>
+    </div>
+    <button class="btn btn-primary" id="p4AddAutomation">+ New Automation</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL WORKFLOWS</span>
+      <strong class="stat-value" id="p4AutoTotal">12</strong>
+      <span class="stat-foot">Registered workflows</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">ACTIVE</span>
+      <strong class="stat-value" id="p4AutoActive">8</strong>
+      <span class="stat-foot">Enabled workflows</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">PAUSED</span>
+      <strong class="stat-value" id="p4AutoPaused">4</strong>
+      <span class="stat-foot">Currently disabled</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Workflow Registry</h3>
+        <p class="muted">Search and filter registered automations.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input id="p4AutoSearch" class="form-control"
+        type="search" placeholder="Search workflow name or ID...">
+      <select id="p4AutoStatus" class="form-control">
+        <option value="all">All statuses</option>
+        <option value="Active">Active</option>
+        <option value="Paused">Paused</option>
+      </select>
+      <select id="p4AutoVendor" class="form-control">
+        <option value="all">All vendors</option>
+        <option value="AISWARE AI RPA">AISWARE</option>
+        <option value="Cyclone RPA">Cyclone</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>WORKFLOW</th>
+            <th>VENDOR</th>
+            <th>TRIGGER</th>
+            <th>LAST RUN</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="p4AutoTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p4AutoPagination"></div>
+    <div class="muted" id="p4AutoInfo"></div>
+  </div>
+
+  <div class="panel" id="p4AutoFormPanel" hidden>
+    <div class="panel-header">
+      <h3 id="p4AutoFormTitle">Create Automation</h3>
+      <button class="btn btn-secondary" id="p4AutoCancel">Close</button>
+    </div>
+    <form id="p4AutoForm">
+      <input type="hidden" id="p4AutoEditId">
+      <div class="form-grid">
+        <label>
+          Workflow Name
+          <input class="form-control" id="p4AutoName"
+            required maxlength="80" placeholder="e.g. Billing Reconciliation">
+        </label>
+        <label>
+          Vendor
+          <select class="form-control" id="p4AutoVendorInput" required>
+            <option value="AISWARE AI RPA">AISWARE AI RPA</option>
+            <option value="Cyclone RPA">Cyclone RPA</option>
+          </select>
+        </label>
+        <label>
+          Trigger
+          <select class="form-control" id="p4AutoTrigger" required>
+            <option value="Scheduled">Scheduled</option>
+            <option value="Manual">Manual</option>
+            <option value="API">API</option>
+            <option value="Event-based">Event-based</option>
+          </select>
+        </label>
+        <label>
+          Initial Status
+          <select class="form-control" id="p4AutoStatusInput" required>
+            <option value="Active">Active</option>
+            <option value="Paused">Paused</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Save Workflow</button>
+        <button class="btn btn-secondary" type="button"
+          id="p4AutoCancel2">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="page" id="page-runs">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">EXECUTION CENTER / HISTORY</div>
+      <h2>Execution Runs</h2>
+      <p class="muted">Browse execution history, results and durations.</p>
+    </div>
+    <button class="btn btn-secondary" id="p4ExportRuns">Export CSV</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL RUN RECORDS</span>
+      <strong class="stat-value" id="p4RunTotal">1,000</strong>
+      <span class="stat-foot">Demo history dataset</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">SUCCESSFUL</span>
+      <strong class="stat-value" id="p4RunSuccess">—</strong>
+      <span class="stat-foot">Across current records</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">FAILED</span>
+      <strong class="stat-value" id="p4RunFailed">—</strong>
+      <span class="stat-foot">Across current records</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Run History</h3>
+        <p class="muted">10 records per page, up to 100 pages.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input class="form-control" type="search" id="p4RunSearch"
+        placeholder="Search run ID or workflow...">
+      <select class="form-control" id="p4RunStatus">
+        <option value="all">All results</option>
+        <option value="Success">Success</option>
+        <option value="Failed">Failed</option>
+        <option value="Running">Running</option>
+      </select>
+      <select class="form-control" id="p4RunVendor">
+        <option value="all">All vendors</option>
+        <option value="AISWARE AI RPA">AISWARE</option>
+        <option value="Cyclone RPA">Cyclone</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>RUN ID</th>
+            <th>WORKFLOW</th>
+            <th>VENDOR</th>
+            <th>STARTED AT</th>
+            <th>DURATION</th>
+            <th>RESULT</th>
+          </tr>
+        </thead>
+        <tbody id="p4RunTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p4RunPagination"></div>
+    <div class="muted" id="p4RunInfo"></div>
+  </div>
+</section>
+
+<style>
+/* Part 4 styles */
+.page-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.page-heading h2 { margin:6px 0; }
+.eyebrow {
+  font-size:11px;
+  letter-spacing:2px;
+  opacity:.7;
+}
+.muted {
+  opacity:.68;
+  font-size:12px;
+  margin-top:5px;
+}
+.toolbar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0;
+}
+.toolbar .form-control {
+  flex:1 1 180px;
+  min-width:140px;
+}
+.form-control {
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border:1px solid var(--border, rgba(100,220,255,.2));
+  border-radius:8px;
+  background:var(--panel, rgba(10,20,40,.75));
+  color:inherit;
+  font:inherit;
+}
+.form-control option {
+  background:#10182a;
+  color:#fff;
+}
+.table-wrap { width:100%; overflow-x:auto; }
+.table-wrap table { width:100%; border-collapse:collapse; }
+.table-wrap th, .table-wrap td {
+  padding:12px 10px;
+  text-align:left;
+  border-bottom:1px solid var(--border, rgba(100,220,255,.13));
+  white-space:nowrap;
+  font-size:12px;
+}
+.table-wrap th {
+  font-size:10px;
+  letter-spacing:1px;
+  opacity:.7;
+}
+.p4-status {
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:10px;
+  border:1px solid currentColor;
+}
+.p4-good { color:#47e6b1; }
+.p4-bad { color:#ff7285; }
+.p4-warn { color:#ffd166; }
+.p4-actions { display:flex; gap:6px; }
+.p4-btn {
+  border:1px solid var(--border, rgba(100,220,255,.25));
+  border-radius:6px;
+  background:transparent;
+  color:inherit;
+  padding:6px 9px;
+  cursor:pointer;
+  font-size:11px;
+}
+.p4-btn:hover { background:rgba(80,200,255,.12); }
+.pagination {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:18px 0 12px;
+}
+.pagination button {
+  min-width:31px;
+  padding:6px 8px;
+  border:1px solid var(--border, rgba(100,220,255,.2));
+  border-radius:6px;
+  background:transparent;
+  color:inherit;
+  cursor:pointer;
+}
+.pagination button.active {
+  background:rgba(40,190,255,.2);
+  border-color:#35caff;
+}
+.pagination button:disabled { opacity:.35; cursor:not-allowed; }
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.form-grid label { font-size:12px; display:grid; gap:8px; }
+.form-actions { display:flex; gap:10px; margin-top:18px; }
+#p4AutoFormPanel { margin-top:18px; }
+#p4AutoFormPanel[hidden] { display:none; }
+@media(max-width:650px) {
+  .form-grid { grid-template-columns:1fr; }
+  .page-heading { align-items:flex-start; }
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const PAGE_SIZE = 10;
+  const MAX_PAGES = 100;
+
+  const workflowNames = [
+    "Subscriber Data Validation",
+    "Billing Reconciliation",
+    "SIM Registration Review",
+    "Customer Ticket Routing",
+    "Network Incident Report",
+    "Payment Record Sync",
+    "Customer Profile Update",
+    "Daily Usage Report",
+    "Invoice Verification",
+    "Service Request Processing",
+    "Account Status Audit",
+    "Data Quality Check"
+  ];
+
+  let workflows = workflowNames.map((name, i) => ({
+    id: "WF-" + String(i + 1).padStart(3, "0"),
+    name,
+    vendor: i % 2 === 0 ? "AISWARE AI RPA" : "Cyclone RPA",
+    trigger: ["Scheduled", "Manual", "API", "Event-based"][i % 4],
+    status: i < 8 ? "Active" : "Paused",
+    lastRun: "2026-10-" + String(15 - (i % 12)).padStart(2, "0")
+      + " " + String(9 + (i % 9)).padStart(2, "0") + ":30"
+  }));
+
+  const runs = Array.from({ length: 1000 }, (_, i) => {
+    const wf = workflows[i % workflows.length];
+    const statuses = ["Success", "Success", "Success", "Failed", "Running"];
+    const day = String(15 - (i % 12)).padStart(2, "0");
+    const hour = String((i * 7) % 24).padStart(2, "0");
+    const minute = String((i * 13) % 60).padStart(2, "0");
+    return {
+      id: "RUN-" + String(i + 1).padStart(5, "0"),
+      workflow: wf.name,
+      vendor: wf.vendor,
+      started: "2026-10-" + day + " " + hour + ":" + minute,
+      duration: (12 + ((i * 17) % 260)) + "s",
+      status: statuses[i % statuses.length]
+    };
+  });
+
+  let autoPage = 1;
+  let runPage = 1;
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    }[ch]));
+  }
+
+  function notify(message) {
+    const toast = $("toastContainer");
+    if (toast) {
+      const item = document.createElement("div");
+      item.textContent = message;
+      item.style.cssText =
+        "padding:12px 16px;margin-top:8px;border:1px solid #35caff;" +
+        "border-radius:8px;background:#10182a;color:#fff;";
+      toast.appendChild(item);
+      setTimeout(() => item.remove(), 3000);
+    } else {
+      alert(message);
+    }
+  }
+
+  function statusBadge(status) {
+    const cls = status === "Success" || status === "Active"
+      ? "p4-good"
+      : status === "Failed" ? "p4-bad" : "p4-warn";
+    return '<span class="p4-status ' + cls + '">' +
+      escapeHTML(status) + "</span>";
+  }
+
+  function pagination(containerId, page, pages, callback) {
+    const el = $(containerId);
+    el.innerHTML = "";
+    if (!pages) return;
+
+    function add(label, target, active, disabled) {
+      const btn = document.createElement("button");
+      btn.textContent = label;
+      if (active) btn.classList.add("active");
+      btn.disabled = !!disabled;
+      btn.addEventListener("click", () => callback(target));
+      el.appendChild(btn);
+    }
+
+    add("‹", Math.max(1, page - 1), false, page === 1);
+
+    let start = Math.max(1, page - 3);
+    let end = Math.min(pages, start + 6);
+    start = Math.max(1, end - 6);
+
+    if (start > 1) {
+      add("1", 1, page === 1, false);
+      if (start > 2) {
+        const dots = document.createElement("span");
+        dots.textContent = "…";
+        dots.style.padding = "6px";
+        el.appendChild(dots);
+      }
+    }
+
+    for (let p = start; p <= end; p++) {
+      add(String(p), p, p === page, false);
+    }
+
+    if (end < pages) {
+      if (end < pages - 1) {
+        const dots = document.createElement("span");
+        dots.textContent = "…";
+        dots.style.padding = "6px";
+        el.appendChild(dots);
+      }
+      add(String(pages), pages, page === pages, false);
+    }
+
+    add("›", Math.min(pages, page + 1), false, page === pages);
+  }
+
+  function renderAutomations() {
+    const search = $("p4AutoSearch").value.trim().toLowerCase();
+    const status = $("p4AutoStatus").value;
+    const vendor = $("p4AutoVendor").value;
+
+    const filtered = workflows.filter(w =>
+      (w.name.toLowerCase().includes(search) ||
+       w.id.toLowerCase().includes(search)) &&
+      (status === "all" || w.status === status) &&
+      (vendor === "all" || w.vendor === vendor)
+    );
+
+    $("p4AutoTotal").textContent = workflows.length;
+    $("p4AutoActive").textContent =
+      workflows.filter(w => w.status === "Active").length;
+    $("p4AutoPaused").textContent =
+      workflows.filter(w => w.status === "Paused").length;
+
+    const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    autoPage = Math.min(autoPage, pages);
+    const visible = filtered.slice(
+      (autoPage - 1) * PAGE_SIZE, autoPage * PAGE_SIZE
+    );
+
+    $("p4AutoTable").innerHTML = visible.length
+      ? visible.map(w => `
+        <tr>
+          <td>
+            <strong>${escapeHTML(w.name)}</strong><br>
+            <span class="muted">${escapeHTML(w.id)}</span>
+          </td>
+          <td>${escapeHTML(w.vendor)}</td>
+          <td>${escapeHTML(w.trigger)}</td>
+          <td>${escapeHTML(w.lastRun)}</td>
+          <td>${statusBadge(w.status)}</td>
+          <td>
+            <div class="p4-actions">
+              <button class="p4-btn" data-p4-edit="${escapeHTML(w.id)}">Edit</button>
+              <button class="p4-btn" data-p4-toggle="${escapeHTML(w.id)}">
+                ${w.status === "Active" ? "Pause" : "Activate"}
+              </button>
+              <button class="p4-btn" data-p4-delete="${escapeHTML(w.id)}">Delete</button>
+            </div>
+          </td>
+        </tr>`).join("")
+      : '<tr><td colspan="6">No workflows match your filters.</td></tr>';
+
+    pagination("p4AutoPagination", autoPage, pages, p => {
+      autoPage = p;
+      renderAutomations();
+    });
+
+    $("p4AutoInfo").textContent =
+      "Showing " + (filtered.length ? (autoPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(autoPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length + " workflows";
+  }
+
+  function renderRuns() {
+    const search = $("p4RunSearch").value.trim().toLowerCase();
+    const status = $("p4RunStatus").value;
+    const vendor = $("p4RunVendor").value;
+
+    const filtered = runs.filter(r =>
+      (r.id.toLowerCase().includes(search) ||
+       r.workflow.toLowerCase().includes(search)) &&
+      (status === "all" || r.status === status) &&
+      (vendor === "all" || r.vendor === vendor)
+    );
+
+    $("p4RunTotal").textContent = runs.length.toLocaleString();
+    $("p4RunSuccess").textContent =
+      runs.filter(r => r.status === "Success").length.toLocaleString();
+    $("p4RunFailed").textContent =
+      runs.filter(r => r.status === "Failed").length.toLocaleString();
+
+    const pages = Math.min(
+      MAX_PAGES, Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+    );
+    runPage = Math.min(runPage, pages);
+    const visible = filtered.slice(
+      (runPage - 1) * PAGE_SIZE, runPage * PAGE_SIZE
+    );
+
+    $("p4RunTable").innerHTML = visible.length
+      ? visible.map(r => `
+        <tr>
+          <td><strong>${escapeHTML(r.id)}</strong></td>
+          <td>${escapeHTML(r.workflow)}</td>
+          <td>${escapeHTML(r.vendor)}</td>
+          <td>${escapeHTML(r.started)}</td>
+          <td>${escapeHTML(r.duration)}</td>
+          <td>${statusBadge(r.status)}</td>
+        </tr>`).join("")
+      : '<tr><td colspan="6">No execution records match your filters.</td></tr>';
+
+    pagination("p4RunPagination", runPage, pages, p => {
+      runPage = p;
+      renderRuns();
+    });
+
+    $("p4RunInfo").textContent =
+      "Showing " + (filtered.length ? (runPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(runPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length.toLocaleString() + " runs";
+  }
+
+  function openForm(workflow) {
+    $("p4AutoFormPanel").hidden = false;
+    $("p4AutoFormTitle").textContent =
+      workflow ? "Edit Automation" : "Create Automation";
+    $("p4AutoEditId").value = workflow ? workflow.id : "";
+    $("p4AutoName").value = workflow ? workflow.name : "";
+    $("p4AutoVendorInput").value =
+      workflow ? workflow.vendor : "AISWARE AI RPA";
+    $("p4AutoTrigger").value = workflow ? workflow.trigger : "Scheduled";
+    $("p4AutoStatusInput").value = workflow ? workflow.status : "Active";
+    $("p4AutoName").focus();
+    $("p4AutoFormPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function closeForm() {
+    $("p4AutoFormPanel").hidden = true;
+    $("p4AutoForm").reset();
+    $("p4AutoEditId").value = "";
+  }
+
+  $("p4AddAutomation").addEventListener("click", () => openForm(null));
+  $("p4AutoCancel").addEventListener("click", closeForm);
+  $("p4AutoCancel2").addEventListener("click", closeForm);
+
+  $("p4AutoForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const editId = $("p4AutoEditId").value;
+    const name = $("p4AutoName").value.trim();
+    if (!name) return;
+
+    const data = {
+      name,
+      vendor: $("p4AutoVendorInput").value,
+      trigger: $("p4AutoTrigger").value,
+      status: $("p4AutoStatusInput").value
+    };
+
+    if (editId) {
+      const item = workflows.find(w => w.id === editId);
+      if (item) Object.assign(item, data);
+      notify("Workflow updated in this demo.");
+    } else {
+      workflows.unshift({
+        id: "WF-" + String(Date.now()).slice(-6),
+        ...data,
+        lastRun: "Not run yet"
+      });
+      notify("Workflow created in this demo.");
+    }
+
+    autoPage = 1;
+    closeForm();
+    renderAutomations();
+  });
+
+  $("p4AutoTable").addEventListener("click", event => {
+    const edit = event.target.closest("[data-p4-edit]");
+    const toggle = event.target.closest("[data-p4-toggle]");
+    const del = event.target.closest("[data-p4-delete]");
+
+    if (edit) {
+      const item = workflows.find(w => w.id === edit.dataset.p4Edit);
+      if (item) openForm(item);
+    }
+
+    if (toggle) {
+      const item = workflows.find(w => w.id === toggle.dataset.p4Toggle);
+      if (item) {
+        item.status = item.status === "Active" ? "Paused" : "Active";
+        renderAutomations();
+        notify("Workflow status changed in this demo.");
+      }
+    }
+
+    if (del) {
+      const item = workflows.find(w => w.id === del.dataset.p4Delete);
+      if (item && confirm('Delete "' + item.name + '" from this demo list?')) {
+        workflows = workflows.filter(w => w.id !== item.id);
+        renderAutomations();
+        notify("Workflow removed from this demo.");
+      }
+    }
+  });
+
+  ["p4AutoSearch", "p4AutoStatus", "p4AutoVendor"].forEach(id => {
+    $(id).addEventListener("input", () => {
+      autoPage = 1;
+      renderAutomations();
+    });
+    $(id).addEventListener("change", () => {
+      autoPage = 1;
+      renderAutomations();
+    });
+  });
+
+  ["p4RunSearch", "p4RunStatus", "p4RunVendor"].forEach(id => {
+    $(id).addEventListener("input", () => {
+      runPage = 1;
+      renderRuns();
+    });
+    $(id).addEventListener("change", () => {
+      runPage = 1;
+      renderRuns();
+    });
+  });
+
+  $("p4ExportRuns").addEventListener("click", () => {
+    const header = ["Run ID", "Workflow", "Vendor", "Started At", "Duration", "Result"];
+    const rows = runs.map(r => [
+      r.id, r.workflow, r.vendor, r.started, r.duration, r.status
+    ]);
+
+    const csv = [header, ...rows].map(row =>
+      row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "apexive-rpa-demo-runs.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    notify("Demo execution history exported.");
+  });
+
+  renderAutomations();
+  renderRuns();
+})();
+</script>
+
+<!-- ===== END PART 4/6 ===== -->
+
+<!-- Part 5 continues here -->
+
+<!-- ===== PART 5/6: VENDORS, ANALYTICS, AUDIT, SETTINGS ===== -->
+
+<!-- VENDORS PAGE -->
+<section class="page" id="page-vendors">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">PLATFORM / VENDOR EVALUATION</div>
+      <h2>RPA Vendor Center</h2>
+      <p class="muted">Compare candidate platforms for MPT automation needs.</p>
+    </div>
+  </div>
+
+  <div class="p5-vendor-grid">
+    <article class="panel p5-vendor-card">
+      <div class="p5-vendor-top">
+        <div class="p5-vendor-icon">A</div>
+        <span class="p5-tag">CANDIDATE 01</span>
+      </div>
+      <h3>AISWARE AI RPA</h3>
+      <p class="muted">AI-assisted automation platform candidate</p>
+      <div class="p5-divider"></div>
+      <div class="p5-detail">
+        <span>Evaluation status</span>
+        <strong>Under Review</strong>
+      </div>
+      <div class="p5-detail">
+        <span>Potential use cases</span>
+        <strong>Document processing, repetitive operations</strong>
+      </div>
+      <div class="p5-detail">
+        <span>Integration review</span>
+        <strong>Requires technical validation</strong>
+      </div>
+      <button class="btn btn-secondary p5-vendor-evaluate"
+        data-vendor="AISWARE AI RPA">Evaluate Vendor</button>
+    </article>
+
+    <article class="panel p5-vendor-card">
+      <div class="p5-vendor-top">
+        <div class="p5-vendor-icon p5-cyclone">C</div>
+        <span class="p5-tag">CANDIDATE 02</span>
+      </div>
+      <h3>Cyclone RPA</h3>
+      <p class="muted">Robotic process automation platform candidate</p>
+      <div class="p5-divider"></div>
+      <div class="p5-detail">
+        <span>Evaluation status</span>
+        <strong>Under Review</strong>
+      </div>
+      <div class="p5-detail">
+        <span>Potential use cases</span>
+        <strong>Back-office workflows, scheduled tasks</strong>
+      </div>
+      <div class="p5-detail">
+        <span>Integration review</span>
+        <strong>Requires technical validation</strong>
+      </div>
+      <button class="btn btn-secondary p5-vendor-evaluate"
+        data-vendor="Cyclone RPA">Evaluate Vendor</button>
+    </article>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Vendor Assessment Checklist</h3>
+        <p class="muted">Track evaluation items before making a procurement decision.</p>
+      </div>
+    </div>
+    <div class="p5-checklist" id="p5VendorChecklist">
+      <label><input type="checkbox" data-check="security">
+        Security, access control and auditability</label>
+      <label><input type="checkbox" data-check="integration">
+        Integration with MPT systems and APIs</label>
+      <label><input type="checkbox" data-check="scale">
+        Scalability, concurrency and resilience</label>
+      <label><input type="checkbox" data-check="support">
+        Local support, training and SLA</label>
+      <label><input type="checkbox" data-check="cost">
+        Licensing, infrastructure and total cost</label>
+      <label><input type="checkbox" data-check="pilot">
+        Proof of concept and pilot test completed</label>
+    </div>
+    <div class="p5-progress-track">
+      <div id="p5VendorProgress"></div>
+    </div>
+    <p class="muted" id="p5VendorProgressText">0 of 6 evaluation items completed.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Evaluation Notes</h3>
+    <p class="muted">Record observations for internal review. Notes remain in this page session.</p>
+    <label class="p5-field-label" for="p5VendorNotes">Notes</label>
+    <textarea class="form-control" id="p5VendorNotes" rows="5"
+      placeholder="Add proof-of-concept results, technical risks, licensing questions..."></textarea>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="p5SaveVendorNotes">Save Notes</button>
+      <button class="btn btn-secondary" id="p5ClearVendorNotes">Clear Notes</button>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYTICS PAGE -->
+<section class="page" id="page-analytics">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">INTELLIGENCE / PERFORMANCE</div>
+      <h2>Automation Analytics</h2>
+      <p class="muted">Explore the sample execution dataset and performance indicators.</p>
+    </div>
+    <button class="btn btn-secondary" id="p5RefreshAnalytics">Refresh Analytics</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">TOTAL EXECUTIONS</span>
+      <strong class="stat-value" id="p5AnalyticsTotal">1,000</strong>
+      <span class="stat-foot">Sample dataset</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">SUCCESS RATE</span>
+      <strong class="stat-value" id="p5AnalyticsSuccess">60%</strong>
+      <span class="stat-foot">Sample status distribution</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">FAILED EXECUTIONS</span>
+      <strong class="stat-value" id="p5AnalyticsFailed">200</strong>
+      <span class="stat-foot">Sample failed records</span>
+    </div>
+  </div>
+
+  <div class="p5-chart-grid">
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <h3>Execution Outcomes</h3>
+          <p class="muted">Distribution across sample run records.</p>
+        </div>
+      </div>
+      <div class="p5-chart" id="p5OutcomeChart">
+        <div class="p5-bar-row">
+          <span>Success</span>
+          <div class="p5-bar-bg"><div class="p5-bar" style="width:60%"></div></div>
+          <strong>60%</strong>
+        </div>
+        <div class="p5-bar-row">
+          <span>Failed</span>
+          <div class="p5-bar-bg"><div class="p5-bar p5-bar-fail" style="width:20%"></div></div>
+          <strong>20%</strong>
+        </div>
+        <div class="p5-bar-row">
+          <span>Running</span>
+          <div class="p5-bar-bg"><div class="p5-bar p5-bar-running" style="width:20%"></div></div>
+          <strong>20%</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <h3>Vendor Workload</h3>
+          <p class="muted">Share of sample execution records.</p>
+        </div>
+      </div>
+      <div id="p5VendorChart" class="p5-chart">
+        <div class="p5-bar-row">
+          <span>AISWARE</span>
+          <div class="p5-bar-bg"><div class="p5-bar" style="width:50%"></div></div>
+          <strong>50%</strong>
+        </div>
+        <div class="p5-bar-row">
+          <span>Cyclone</span>
+          <div class="p5-bar-bg"><div class="p5-bar p5-bar-running" style="width:50%"></div></div>
+          <strong>50%</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>Performance Snapshot</h3>
+        <p class="muted">Calculated from the sample execution history.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>METRIC</th>
+            <th>VALUE</th>
+            <th>INTERPRETATION</th>
+          </tr>
+        </thead>
+        <tbody id="p5AnalyticsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT LOGS PAGE -->
+<section class="page" id="page-audit">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">GOVERNANCE / TRACEABILITY</div>
+      <h2>Audit Logs</h2>
+      <p class="muted">Review demo activity events and export them for inspection.</p>
+    </div>
+    <button class="btn btn-secondary" id="p5ExportAudit">Export Audit CSV</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">LOG ENTRIES</span>
+      <strong class="stat-value" id="p5AuditTotal">0</strong>
+      <span class="stat-foot">Events in this session</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">ACTION TYPES</span>
+      <strong class="stat-value" id="p5AuditTypes">0</strong>
+      <span class="stat-foot">Distinct event types</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">LATEST EVENT</span>
+      <strong class="stat-value" id="p5AuditLatest">—</strong>
+      <span class="stat-foot">Local session history</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="toolbar">
+      <input class="form-control" id="p5AuditSearch" type="search"
+        placeholder="Search action, actor or details...">
+      <select class="form-control" id="p5AuditType">
+        <option value="all">All event types</option>
+        <option value="System">System</option>
+        <option value="Workflow">Workflow</option>
+        <option value="Vendor">Vendor</option>
+        <option value="Settings">Settings</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>TIMESTAMP</th>
+            <th>ACTOR</th>
+            <th>EVENT TYPE</th>
+            <th>ACTION</th>
+            <th>DETAILS</th>
+          </tr>
+        </thead>
+        <tbody id="p5AuditTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="p5AuditPagination"></div>
+    <div class="muted" id="p5AuditInfo"></div>
+  </div>
+  <p class="muted">
+    Demo limitation: these records are browser-session activity logs, not a tamper-proof
+    enterprise audit trail. Production audit logs should be stored server-side with
+    access controls, retention rules and integrity protections.
+  </p>
+</section>
+
+<!-- SETTINGS PAGE -->
+<section class="page" id="page-settings">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">SYSTEM / CONFIGURATION</div>
+      <h2>Control Center Settings</h2>
+      <p class="muted">Configure the local dashboard demo and connection preferences.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h3>API Connection</h3>
+        <p class="muted">Set the backend API base URL for a future integration.</p>
+      </div>
+      <span class="p5-tag">NOT CONNECTED BY DEFAULT</span>
+    </div>
+    <form id="p5SettingsForm">
+      <label class="p5-field-label" for="p5ApiBase">API Base URL</label>
+      <input class="form-control" id="p5ApiBase" type="url"
+        placeholder="https://your-approved-api.example.com">
+      <p class="muted">
+        Use only the approved MPT backend endpoint. Saving this URL does not implement
+        authentication or guarantee that an API is available.
+      </p>
+
+      <label class="p5-field-label" for="p5RefreshInterval">Dashboard Refresh Interval</label>
+      <select class="form-control" id="p5RefreshInterval">
+        <option value="0">Manual refresh only</option>
+        <option value="30">30 seconds</option>
+        <option value="60">60 seconds</option>
+        <option value="300">5 minutes</option>
+      </select>
+
+      <label class="p5-switch-row">
+        <span>
+          <strong>Demo notifications</strong>
+          <small>Show confirmation messages for local actions.</small>
+        </span>
+        <input type="checkbox" id="p5Notifications" checked>
+      </label>
+
+      <label class="p5-switch-row">
+        <span>
+          <strong>Reduced motion</strong>
+          <small>Reduce optional interface animation.</small>
+        </span>
+        <input type="checkbox" id="p5ReducedMotion">
+      </label>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Save Settings</button>
+        <button class="btn btn-secondary" type="button" id="p5ResetSettings">
+          Reset Form
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3>Environment Information</h3>
+    <div class="p5-detail">
+      <span>Application</span><strong>APEXIVE AI // MPT RPA</strong>
+    </div>
+    <div class="p5-detail">
+      <span>Mode</span><strong>Frontend demo</strong>
+    </div>
+    <div class="p5-detail">
+      <span>Backend connection</span><strong id="p5BackendStatus">Not configured</strong>
+    </div>
+    <div class="p5-detail">
+      <span>Data persistence</span><strong>Temporary browser session</strong>
+    </div>
+    <p class="muted">
+      Do not enter passwords, API secrets, customer data or production credentials
+      into this demo settings form.
+    </p>
+  </div>
+</section>
+
+<style>
+/* Part 5 styles */
+.p5-vendor-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.p5-vendor-card { min-width:0; }
+.p5-vendor-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.p5-vendor-icon {
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:rgba(50,190,255,.15);
+  border:1px solid rgba(50,190,255,.4);
+  color:#64d8ff;
+  font-size:22px;
+  font-weight:800;
+}
+.p5-cyclone {
+  color:#c0a5ff;
+  background:rgba(150,100,255,.15);
+  border-color:rgba(150,100,255,.4);
+}
+.p5-tag {
+  font-size:10px;
+  letter-spacing:1px;
+  padding:5px 8px;
+  border-radius:20px;
+  border:1px solid rgba(80,200,255,.3);
+  opacity:.85;
+}
+.p5-divider {
+  height:1px;
+  background:rgba(100,200,255,.15);
+  margin:16px 0;
+}
+.p5-detail {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(100,200,255,.1);
+  font-size:12px;
+}
+.p5-detail span { opacity:.65; }
+.p5-detail strong { font-weight:600; }
+.p5-vendor-card > .btn { margin-top:16px; }
+.p5-checklist {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin:16px 0;
+}
+.p5-checklist label {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:12px;
+  line-height:1.6;
+}
+.p5-checklist input { accent-color:#35caff; margin-top:3px; }
+.p5-progress-track {
+  width:100%;
+  height:8px;
+  background:rgba(100,200,255,.12);
+  border-radius:10px;
+  overflow:hidden;
+}
+#p5VendorProgress {
+  height:100%;
+  width:0%;
+  background:#35caff;
+  transition:width .2s ease;
+}
+.p5-chart-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.p5-chart { display:grid; gap:18px; margin-top:22px; }
+.p5-bar-row {
+  display:grid;
+  grid-template-columns:85px minmax(40px,1fr) 44px;
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+}
+.p5-bar-bg {
+  height:10px;
+  border-radius:10px;
+  background:rgba(100,200,255,.12);
+  overflow:hidden;
+}
+.p5-bar {
+  height:100%;
+  border-radius:10px;
+  background:#35caff;
+}
+.p5-bar-fail { background:#ff7285; }
+.p5-bar-running { background:#b69aff; }
+.p5-field-label {
+  display:block;
+  font-size:12px;
+  margin:14px 0 8px;
+}
+.p5-switch-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-top:20px;
+  padding:14px 0;
+  border-bottom:1px solid rgba(100,200,255,.12);
+}
+.p5-switch-row span { display:grid; gap:5px; }
+.p5-switch-row strong { font-size:12px; }
+.p5-switch-row small { font-size:11px; opacity:.65; }
+.p5-switch-row input { accent-color:#35caff; }
+@media(max-width:700px) {
+  .p5-vendor-grid,.p5-chart-grid,.p5-checklist {
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const PAGE_SIZE = 10;
+  let auditPage = 1;
+
+  const auditLogs = [];
+
+  function logEvent(type, action, details) {
+    auditLogs.unshift({
+      timestamp: new Date().toLocaleString(),
+      actor: "Local Demo User",
+      type,
+      action,
+      details
+    });
+    renderAudit();
+  }
+
+  function htmlSafe(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    }[ch]));
+  }
+
+  function showMessage(message) {
+    const toast = $("toastContainer");
+    if (toast) {
+      const el = document.createElement("div");
+      el.textContent = message;
+      el.style.cssText =
+        "padding:12px 16px;margin-top:8px;border:1px solid #35caff;" +
+        "border-radius:8px;background:#10182a;color:#fff;";
+      toast.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    } else {
+      alert(message);
+    }
+  }
+
+  function downloadCSV(filename, header, rows) {
+    const csv = [header, ...rows].map(row =>
+      row.map(value =>
+        '"' + String(value ?? "").replace(/"/g, '""') + '"'
+      ).join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  /* Vendor assessment checklist */
+  function updateChecklist() {
+    const boxes = Array.from(
+      document.querySelectorAll("#p5VendorChecklist input[type=checkbox]")
+    );
+    const checked = boxes.filter(box => box.checked).length;
+    const percent = boxes.length ? checked / boxes.length * 100 : 0;
+    $("p5VendorProgress").style.width = percent + "%";
+    $("p5VendorProgressText").textContent =
+      checked + " of " + boxes.length + " evaluation items completed.";
+  }
+
+  document.querySelectorAll("#p5VendorChecklist input").forEach(box => {
+    box.addEventListener("change", () => {
+      updateChecklist();
+      logEvent("Vendor", "Checklist updated", box.dataset.check);
+    });
+  });
+
+  document.querySelectorAll(".p5-vendor-evaluate").forEach(button => {
+    button.addEventListener("click", () => {
+      const vendor = button.dataset.vendor;
+      logEvent("Vendor", "Evaluation opened", vendor);
+      showMessage(vendor + ": evaluation checklist is ready.");
+      $("p5VendorChecklist").scrollIntoView({
+        behavior: "smooth", block: "center"
+      });
+    });
+  });
+
+  $("p5SaveVendorNotes").addEventListener("click", () => {
+    logEvent("Vendor", "Notes saved", "Notes stored in page memory only");
+    showMessage("Notes recorded for this page session.");
+  });
+
+  $("p5ClearVendorNotes").addEventListener("click", () => {
+    $("p5VendorNotes").value = "";
+    logEvent("Vendor", "Notes cleared", "Vendor notes cleared");
+    showMessage("Notes cleared.");
+  });
+
+  /* Analytics */
+  function renderAnalytics() {
+    const rows = Array.from({ length: 1000 }, (_, i) => ({
+      vendor: i % 2 === 0 ? "AISWARE AI RPA" : "Cyclone RPA",
+      status: ["Success", "Success", "Success", "Failed", "Running"][i % 5],
+      duration: 12 + ((i * 17) % 260)
+    }));
+
+    const total = rows.length;
+    const success = rows.filter(r => r.status === "Success").length;
+    const failed = rows.filter(r => r.status === "Failed").length;
+    const running = rows.filter(r => r.status === "Running").length;
+    const successPct = Math.round(success / total * 100);
+    const failedPct = Math.round(failed / total * 100);
+    const runningPct = 100 - successPct - failedPct;
+
+    $("p5AnalyticsTotal").textContent = total.toLocaleString();
+    $("p5AnalyticsSuccess").textContent = successPct + "%";
+    $("p5AnalyticsFailed").textContent = failed.toLocaleString();
+
+    $("p5OutcomeChart").innerHTML = [
+      ["Success", success, successPct, ""],
+      ["Failed", failed, failedPct, "p5-bar-fail"],
+      ["Running", running, runningPct, "p5-bar-running"]
+    ].map(item => `
+      <div class="p5-bar-row">
+        <span>${item[0]}</span>
+        <div class="p5-bar-bg">
+          <div class="p5-bar ${item[3]}" style="width:${item[2]}%"></div>
+        </div>
+        <strong>${item[2]}%</strong>
+      </div>`).join("");
+
+    const aisware = rows.filter(r => r.vendor === "AISWARE AI RPA").length;
+    const cyclone = total - aisware;
+
+    $("p5VendorChart").innerHTML = [
+      ["AISWARE", aisware, Math.round(aisware / total * 100), ""],
+      ["Cyclone", cyclone, Math.round(cyclone / total * 100), "p5-bar-running"]
+    ].map(item => `
+      <div class="p5-bar-row">
+        <span>${item[0]}</span>
+        <div class="p5-bar-bg">
+          <div class="p5-bar ${item[3]}" style="width:${item[2]}%"></div>
+        </div>
+        <strong>${item[2]}%</strong>
+      </div>`).join("");
+
+    const avgDuration = rows.reduce((sum, r) => sum + r.duration, 0) / total;
+
+    $("p5AnalyticsTable").innerHTML = [
+      ["Total executions", total.toLocaleString(), "Number of sample run records"],
+      ["Success rate", successPct + "%", "Sample successful outcomes"],
+      ["Failure rate", failedPct + "%", "Sample failed outcomes"],
+      ["Average duration", Math.round(avgDuration) + " seconds", "Mean duration of generated sample records"],
+      ["Running records", running.toLocaleString(), "Records marked as running in sample data"]
+    ].map(row => `
+      <tr>
+        <td>${htmlSafe(row[0])}</td>
+        <td><strong>${htmlSafe(row[1])}</strong></td>
+        <td>${htmlSafe(row[2])}</td>
+      </tr>`).join("");
+  }
+
+  $("p5RefreshAnalytics").addEventListener("click", () => {
+    renderAnalytics();
+    logEvent("System", "Analytics refreshed", "Sample analytics recalculated");
+    showMessage("Analytics refreshed from sample data.");
+  });
+
+  /* Audit log */
+  function renderAudit() {
+    const search = $("p5AuditSearch").value.trim().toLowerCase();
+    const type = $("p5AuditType").value;
+
+    const filtered = auditLogs.filter(item =>
+      (type === "all" || item.type === type) &&
+      [item.actor, item.action, item.details, item.type]
+        .join(" ").toLowerCase().includes(search)
+    );
+
+    $("p5AuditTotal").textContent = auditLogs.length;
+    $("p5AuditTypes").textContent =
+      new Set(auditLogs.map(item => item.type)).size;
+    $("p5AuditLatest").textContent = auditLogs.length
+      ? auditLogs[0].timestamp.split(",")[1]?.trim() || "Recorded"
+      : "—";
+
+    const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    auditPage = Math.min(auditPage, pages);
+    const visible = filtered.slice(
+      (auditPage - 1) * PAGE_SIZE, auditPage * PAGE_SIZE
+    );
+
+    $("p5AuditTable").innerHTML = visible.length
+      ? visible.map(item => `
+        <tr>
+          <td>${htmlSafe(item.timestamp)}</td>
+          <td>${htmlSafe(item.actor)}</td>
+          <td>${htmlSafe(item.type)}</td>
+          <td>${htmlSafe(item.action)}</td>
+          <td>${htmlSafe(item.details)}</td>
+        </tr>`).join("")
+      : '<tr><td colspan="5">No audit events match your filters yet.</td></tr>';
+
+    const pagination = $("p5AuditPagination");
+    pagination.innerHTML = "";
+
+    function addPage(label, page, active, disabled) {
+      const button = document.createElement("button");
+      button.textContent = label;
+      button.disabled = !!disabled;
+      if (active) button.classList.add("active");
+      button.addEventListener("click", () => {
+        auditPage = page;
+        renderAudit();
+      });
+      pagination.appendChild(button);
+    }
+
+    addPage("‹", Math.max(1, auditPage - 1), false, auditPage === 1);
+
+    for (let p = 1; p <= pages; p++) {
+      if (pages > 7 && p !== 1 && p !== pages &&
+          Math.abs(p - auditPage) > 2) {
+        if (p === 2 || p === pages - 1) {
+          const dots = document.createElement("span");
+          dots.textContent = "…";
+          dots.style.padding = "6px";
+          pagination.appendChild(dots);
+        }
+        continue;
+      }
+      addPage(String(p), p, p === auditPage, false);
+    }
+
+    addPage("›", Math.min(pages, auditPage + 1), false, auditPage === pages);
+
+    $("p5AuditInfo").textContent =
+      "Showing " + (filtered.length ? (auditPage - 1) * PAGE_SIZE + 1 : 0) +
+      "–" + Math.min(auditPage * PAGE_SIZE, filtered.length) +
+      " of " + filtered.length + " events";
+  }
+
+  $("p5AuditSearch").addEventListener("input", () => {
+    auditPage = 1;
+    renderAudit();
+  });
+
+  $("p5AuditType").addEventListener("change", () => {
+    auditPage = 1;
+    renderAudit();
+  });
+
+  $("p5ExportAudit").addEventListener("click", () => {
+    downloadCSV(
+      "apexive-demo-audit-logs.csv",
+      ["Timestamp", "Actor", "Event Type", "Action", "Details"],
+      auditLogs.map(item => [
+        item.timestamp, item.actor, item.type, item.action, item.details
+      ])
+    );
+    logEvent("System", "Audit CSV exported", "Current session audit events exported");
+    showMessage("Audit CSV export started.");
+  });
+
+  /* Settings */
+  const defaultSettings = {
+    apiBase: "",
+    refreshInterval: "0",
+    notifications: true,
+    reducedMotion: false
+  };
+
+  function readSettingsForm() {
+    return {
+      apiBase: $("p5ApiBase").value.trim(),
+      refreshInterval: $("p5RefreshInterval").value,
+      notifications: $("p5Notifications").checked,
+      reducedMotion: $("p5ReducedMotion").checked
+    };
+  }
+
+  $("p5SettingsForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const settings = readSettingsForm();
+
+    if (settings.apiBase) {
+      try {
+        const url = new URL(settings.apiBase);
+        if (!["http:", "https:"].includes(url.protocol)) {
+          throw new Error("Invalid protocol");
+        }
+      } catch (_) {
+        showMessage("Please enter a valid HTTP or HTTPS URL.");
+        return;
+      }
+    }
+
+    $("p5BackendStatus").textContent = settings.apiBase
+      ? "URL configured; connection not verified"
+      : "Not configured";
+
+    document.documentElement.classList.toggle(
+      "p5-reduced-motion", settings.reducedMotion
+    );
+
+    logEvent("Settings", "Settings saved",
+      "Refresh interval: " + settings.refreshInterval +
+      "s; API URL " + (settings.apiBase ? "configured" : "empty"));
+
+    if (settings.notifications) {
+      showMessage("Settings saved for this page session.");
+    }
+  });
+
+  $("p5ResetSettings").addEventListener("click", () => {
+    $("p5ApiBase").value = defaultSettings.apiBase;
+    $("p5RefreshInterval").value = defaultSettings.refreshInterval;
+    $("p5Notifications").checked = defaultSettings.notifications;
+    $("p5ReducedMotion").checked = defaultSettings.reducedMotion;
+    $("p5BackendStatus").textContent = "Not configured";
+    document.documentElement.classList.remove("p5-reduced-motion");
+    logEvent("Settings", "Settings form reset", "Defaults restored");
+    showMessage("Settings form reset.");
+  });
+
+  const motionStyle = document.createElement("style");
+  motionStyle.textContent =
+    ".p5-reduced-motion *, .p5-reduced-motion *::before, " +
+    ".p5-reduced-motion *::after {" +
+    "animation-duration:0.01ms!important;transition-duration:0.01ms!important;" +
+    "scroll-behavior:auto!important}";
+  document.head.appendChild(motionStyle);
+
+  /* Initial page events */
+  logEvent("System", "Dashboard session started", "Part 5 demo modules initialized");
+  updateChecklist();
+  renderAnalytics();
+  renderAudit();
+})();
+</script>
+
+<!-- ===== END PART 5/6 ===== -->
+
+<!-- Part 6 continues here -->
+
+<!-- ===== PART 6/6: FINAL INTEGRATION ===== -->
+
+<style>
+/* Final responsive polish */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #35caff;
+  outline-offset: 3px;
+}
+
+.page {
+  min-width: 0;
+  animation: p6FadeIn .2s ease-out;
+}
+
+.page-heading,
+.panel,
+.stat-card,
+.sidebar,
+.topbar {
+  min-width: 0;
+}
+
+.panel {
+  overflow-wrap: anywhere;
+}
+
+.table-wrap {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+img, canvas, svg {
+  max-width: 100%;
+}
+
+.p6-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid rgba(80,200,255,.35);
+  border-radius: 8px;
+  background: rgba(10,25,45,.9);
+  color: #7ee4ff;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.p6-mobile-overlay {
+  display: none;
+}
+
+.p6-health-message {
+  font-size: 11px;
+  opacity: .7;
+  margin-top: 6px;
+}
+
+@keyframes p6FadeIn {
+  from { opacity: .65; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content {
+    padding: 18px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .p6-menu-toggle {
+    display: inline-flex;
+  }
+
+  .topbar {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+
+  .sidebar.p6-open {
+    display: flex !important;
+    position: fixed !important;
+    top: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: min(290px, calc(100vw - 48px));
+    height: auto !important;
+    overflow-y: auto;
+    z-index: 10001;
+    box-sizing: border-box;
+    background: #091426;
+    border: 1px solid rgba(65,200,255,.35);
+    border-radius: 14px;
+    box-shadow: 0 15px 60px rgba(0,0,0,.6);
+  }
+
+  .p6-mobile-overlay.p6-overlay-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    z-index: 10000;
+  }
+
+  .main-layout {
+    display: block !important;
+  }
+
+  .content {
+    width: 100%;
+    padding: 14px !important;
+    box-sizing: border-box;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 12px !important;
+  }
+
+  .stat-value {
+    font-size: clamp(20px, 5vw, 30px) !important;
+    overflow-wrap: anywhere;
+  }
+
+  .page-heading h2 {
+    font-size: 23px;
+  }
+
+  .panel {
+    padding: 14px !important;
+    margin-bottom: 14px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar .form-control {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+  }
+
+  .form-actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .pagination {
+    gap: 4px;
+  }
+
+  .pagination button {
+    min-width: 29px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 10px !important;
+  }
+
+  .page-heading h2 {
+    font-size: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  function p6Init() {
+    const $ = selector => document.querySelector(selector);
+    const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+    const pages = $$(".page[id^='page-']");
+    const navItems = $$("[data-page]");
+    const sidebar = $(".sidebar");
+    const topbar = $(".topbar");
+
+    if (!pages.length) {
+      console.error("APEXIVE: No page sections were found.");
+      return;
+    }
+
+    /* Mobile navigation toggle */
+    let menuButton = $("#p6MenuToggle");
+    let overlay = $("#p6MobileOverlay");
+
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.id = "p6MobileOverlay";
+      overlay.className = "p6-mobile-overlay";
+      document.body.appendChild(overlay);
+    }
+
+    if (sidebar && topbar && !menuButton) {
+      menuButton = document.createElement("button");
+      menuButton.id = "p6MenuToggle";
+      menuButton.className = "p6-menu-toggle";
+      menuButton.type = "button";
+      menuButton.textContent = "☰";
+      menuButton.setAttribute("aria-label", "Open navigation");
+      menuButton.setAttribute("aria-expanded", "false");
+      topbar.insertBefore(menuButton, topbar.firstChild);
+    }
+
+    function closeMobileMenu() {
+      if (sidebar) sidebar.classList.remove("p6-open");
+      if (overlay) overlay.classList.remove("p6-overlay-open");
+
+      if (menuButton) {
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Open navigation");
+      }
+    }
+
+    if (menuButton && sidebar) {
+      menuButton.addEventListener("click", () => {
+        const isOpen = sidebar.classList.toggle("p6-open");
+
+        if (overlay) {
+          overlay.classList.toggle("p6-overlay-open", isOpen);
+        }
+
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+        menuButton.setAttribute(
+          "aria-label",
+          isOpen ? "Close navigation" : "Open navigation"
+        );
+      });
+    }
+
+    if (overlay) {
+      overlay.addEventListener("click", closeMobileMenu);
+    }
+
+    /* Reliable navigation between every page */
+    function showPage(pageName) {
+      const targetId = "page-" + pageName;
+      const target = document.getElementById(targetId);
+
+      if (!target || !target.classList.contains("page")) {
+        console.warn("APEXIVE: Page not found:", targetId);
+        return false;
+      }
+
+      pages.forEach(page => {
+        const active = page.id === targetId;
+        page.classList.toggle("active", active);
+        page.setAttribute("aria-hidden", String(!active));
+      });
+
+      navItems.forEach(item => {
+        const active = item.dataset.page === pageName;
+        item.classList.toggle("active", active);
+
+        if (active) {
+          item.setAttribute("aria-current", "page");
+        } else {
+          item.removeAttribute("aria-current");
+        }
+      });
+
+      closeMobileMenu();
+      window.scrollTo({ top: 0, behavior: "auto" });
+
+      document.dispatchEvent(new CustomEvent("apexive:pagechange", {
+        detail: { page: pageName }
+      }));
+
+      return true;
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener("click", event => {
+        const pageName = item.dataset.page;
+        if (!pageName) return;
+
+        const target = document.getElementById("page-" + pageName);
+        if (!target) return;
+
+        event.preventDefault();
+        showPage(pageName);
+      });
+    });
+
+    /* Support links with a page hash, e.g. #page-vendors */
+    function applyHashRoute() {
+      const hash = window.location.hash.replace(/^#/, "");
+      if (hash.startsWith("page-")) {
+        showPage(hash.slice(5));
+      }
+    }
+
+    window.addEventListener("hashchange", applyHashRoute);
+
+    /* Keyboard shortcuts */
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeMobileMenu();
+    });
+
+    /* Refresh control feedback */
+    const refreshButton = $("#refreshButton");
+
+    if (refreshButton) {
+      refreshButton.addEventListener("click", () => {
+        const originalText = refreshButton.textContent;
+
+        refreshButton.disabled = true;
+        refreshButton.textContent = "Refreshing…";
+
+        window.setTimeout(() => {
+          refreshButton.disabled = false;
+          refreshButton.textContent = originalText || "Refresh";
+
+          const toast = $("#toastContainer");
+          if (toast) {
+            const message = document.createElement("div");
+            message.textContent =
+              "Dashboard refreshed. Demo data is still local.";
+            message.style.cssText =
+              "padding:12px;margin-top:8px;border:1px solid #35caff;" +
+              "border-radius:8px;background:#10182a;color:#fff;";
+            toast.appendChild(message);
+            window.setTimeout(() => message.remove(), 3000);
+          }
+        }, 350);
+      });
+    }
+
+    /* Keep clock visible if the earlier clock script is unavailable */
+    const clock = $("#liveClock");
+
+    function updateClock() {
+      if (!clock) return;
+
+      clock.textContent = new Date().toLocaleString([], {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+    }
+
+    updateClock();
+    window.setInterval(updateClock, 1000);
+
+    /* Confirm page structure and report missing sections */
+    const requiredPages = [
+      "overview",
+      "automations",
+      "runs",
+      "vendors",
+      "analytics",
+      "audit",
+      "settings"
+    ];
+
+    const missingPages = requiredPages.filter(
+      name => !document.getElementById("page-" + name)
+    );
+
+    if (missingPages.length) {
+      console.warn("APEXIVE: Missing pages:", missingPages);
+    }
+
+    /* Respect a hash route if one exists; otherwise keep overview active */
+    const hash = window.location.hash.replace(/^#/, "");
+    const requestedPage = hash.startsWith("page-") ? hash.slice(5) : "overview";
+
+    if (!showPage(requestedPage)) {
+      showPage("overview");
+    }
+
+    console.info("APEXIVE RPA Control Center initialized.", {
+      pagesFound: pages.length,
+      navigationItems: navItems.length,
+      missingPages: missingPages
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", p6Init, { once: true });
+  } else {
+    p6Init();
+  }
+})();
+</script>
+
+<!-- ===== END PART 6/6 ===== -->
+
+<script>
+(function () {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  let apiBase = "";
+  let apiKey = "";
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function message(text, type) {
+    const container = $("toastContainer");
+    if (!container) return;
+    const toast = document.createElement("div");
+    toast.textContent = text;
+    toast.style.cssText =
+      "padding:12px 15px;border:1px solid " +
+      (type === "error" ? "var(--red)" : "var(--cyan)") +
+      ";border-radius:9px;background:rgba(5,15,30,.97);color:var(--text)";
+    container.appendChild(toast);
+    window.setTimeout(() => toast.remove(), 4000);
+  }
+
+  async function request(path, options) {
+    const response = await fetch(apiBase + path, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": apiKey,
+        ...(options && options.headers)
+      }
+    });
+    if (!response.ok) {
+      let detail = "HTTP " + response.status;
+      try {
+        const body = await response.json();
+        detail = body.detail || detail;
+      } catch (_) {
+        // The status remains available when a non-JSON error page is returned.
+      }
+      throw new Error(detail);
+    }
+    return response.json();
+  }
+
+  function setConnection(text, state) {
+    const badge = $("trafficConnectionStatus");
+    badge.textContent = text;
+    badge.className = "badge-status " + state;
+  }
+
+  function formatTime(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "N/A";
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Yangon",
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }).format(date) + " MMT";
+  }
+
+  function renderSample(sample, changes) {
+    ["PS", "CS", "VoLTE"].forEach(service => {
+      const key = service.toLowerCase();
+      const value = sample ? sample[key] : null;
+      $(service === "VoLTE" ? "trafficValueVoLTE" : "trafficValue" + service)
+        .textContent = value === null ? "—" : Number(value).toLocaleString();
+
+      const change = sample && changes && changes[service];
+      const changeNode = $(
+        service === "VoLTE" ? "trafficChangeVoLTE" : "trafficChange" + service
+      );
+      if (change === undefined) {
+        changeNode.textContent = sample ? "No previous sample" : "Waiting for telemetry";
+        changeNode.style.color = "var(--muted)";
+      } else {
+        changeNode.textContent = (change > 0 ? "+" : "") + change + "% vs previous hour";
+        changeNode.style.color = change > 0
+          ? "var(--orange)"
+          : change < 0 ? "var(--cyan)" : "var(--green)";
+      }
+    });
+    $("trafficLastSample").textContent = sample
+      ? "Last sample · " + formatTime(sample.sampled_at)
+      : "No telemetry received";
+  }
+
+  function renderSamples(samples) {
+    const body = $("trafficSamplesBody");
+    if (!samples.length) {
+      body.innerHTML =
+        '<tr><td colspan="5" class="empty-state">No telemetry samples received.</td></tr>';
+      return;
+    }
+    body.innerHTML = samples.slice().reverse().map(sample => `
+      <tr>
+        <td>${escapeHTML(formatTime(sample.sampled_at))}</td>
+        <td>${escapeHTML(sample.source)}</td>
+        <td>${Number(sample.ps).toLocaleString()}</td>
+        <td>${Number(sample.cs).toLocaleString()}</td>
+        <td>${Number(sample.volte).toLocaleString()}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderConfig(config) {
+    $("trafficMonitoringEnabled").checked = config.monitoring_enabled;
+    $("trafficAutoRunEnabled").checked = config.auto_run_enabled;
+    $("trafficThreshold").value = config.threshold_percent;
+    $("trafficVendor").value = config.vendor;
+    $("trafficWorkflowKey").value = config.workflow_key;
+    document.querySelectorAll('input[name="trafficService"]').forEach(input => {
+      input.checked = config.services.includes(input.value);
+    });
+    $("trafficConfigStatus").textContent =
+      "Saved · " + config.sampling_interval_minutes + "-minute cadence";
+  }
+
+  async function refreshTraffic() {
+    const data = await request("/api/traffic", { method: "GET" });
+    renderSample(data.latest, data.changes_percent);
+    renderSamples(data.samples);
+    renderConfig(data.config);
+  }
+
+  async function connect() {
+    const rawUrl = $("trafficApiBase").value.trim();
+    const rawKey = $("trafficApiKey").value;
+    if (!rawUrl || !rawKey) {
+      message("Enter the approved API URL and API key.", "error");
+      return;
+    }
+    try {
+      const parsed = new URL(rawUrl);
+      if (!["http:", "https:"].includes(parsed.protocol)) {
+        throw new Error("Use an HTTP or HTTPS API URL.");
+      }
+      if (parsed.protocol === "http:" && location.protocol === "https:"
+          && !["localhost", "127.0.0.1"].includes(parsed.hostname)) {
+        throw new Error("Use HTTPS when the dashboard is served over HTTPS.");
+      }
+      apiBase = parsed.origin;
+      apiKey = rawKey;
+      setConnection("Connecting", "pending");
+      await refreshTraffic();
+      setConnection("Connected · authorized feed", "completed");
+      message("Traffic monitor connected to the backend.", "success");
+    } catch (error) {
+      apiKey = "";
+      setConnection("Connection failed", "failed");
+      message("Traffic API connection failed: " + error.message, "error");
+    }
+  }
+
+  $("trafficConnect").addEventListener("click", connect);
+  $("trafficRefresh").addEventListener("click", async () => {
+    if (!apiKey) {
+      message("Connect to the approved traffic API first.", "error");
+      return;
+    }
+    try {
+      await refreshTraffic();
+    } catch (error) {
+      message("Could not refresh traffic: " + error.message, "error");
+    }
+  });
+  $("trafficConfigForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!apiKey) {
+      message("Connect to the approved traffic API before saving policy.", "error");
+      return;
+    }
+    const monitoring = $("trafficMonitoringEnabled").checked;
+    const autoRun = $("trafficAutoRunEnabled").checked;
+    if (autoRun && !monitoring) {
+      message("Enable monitoring before enabling automatic job queueing.", "error");
+      return;
+    }
+    const services = Array.from(
+      document.querySelectorAll('input[name="trafficService"]:checked')
+    ).map(input => input.value);
+    if (!services.length) {
+      message("Select at least one traffic service to monitor.", "error");
+      return;
+    }
+    const body = {
+      monitoring_enabled: monitoring,
+      auto_run_enabled: autoRun,
+      threshold_percent: Number($("trafficThreshold").value),
+      vendor: $("trafficVendor").value,
+      workflow_key: $("trafficWorkflowKey").value.trim(),
+      services
+    };
+    try {
+      const config = await request("/api/traffic/config", {
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+      renderConfig(config);
+      message("Traffic monitoring policy saved.", "success");
+    } catch (error) {
+      $("trafficConfigStatus").textContent = "Save failed";
+      message("Could not save monitoring policy: " + error.message, "error");
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const origin = location.origin;
+    if (origin && origin !== "null") $("trafficApiBase").value = origin;
+    window.setInterval(async () => {
+      if (!apiKey || document.visibilityState === "hidden") return;
+      try {
+        await refreshTraffic();
+      } catch (error) {
+        setConnection("API unavailable", "failed");
+        console.error("[MPT Traffic Monitor] Refresh failed:", error);
+      }
+    }, 60_000);
+  }, { once: true });
+})();
+</script>
+
+<!-- AISWARE AI RPA: CORE CAPABILITIES -->
+<div class="panel aisware-capabilities">
+  <div class="aisware-heading">
+    <div>
+      <div class="eyebrow">VENDOR INTELLIGENCE / AI AUTOMATION</div>
+      <h3>AISWARE AI RPA</h3>
+      <p class="muted">
+        Core Capabilities &amp; Enterprise Application
+      </p>
+    </div>
+    <span class="p5-tag">CAPABILITY PROFILE</span>
+  </div>
+
+  <div class="aisware-hero">
+    <div class="aisware-hero-icon">AI</div>
+    <div>
+      <h4>From Robotic Process Automation to Intelligent Process Automation</h4>
+      <p>
+        AI-assisted automation designed to combine document understanding,
+        process intelligence and enterprise application integration.
+      </p>
+    </div>
+  </div>
+
+  <div class="aisware-capability-grid">
+
+    <article class="aisware-feature">
+      <div class="aisware-feature-icon">◎</div>
+      <h4>AI-Powered Services</h4>
+      <p>
+        Built-in OCR, Natural Language Processing (NLP) and Computer Vision (CV)
+        capabilities support the processing of unstructured documents and visual data.
+      </p>
+      <a href="https://www.asiainfo.com/en_us/content_3509.html"
+         target="_blank" rel="noopener noreferrer">Source 1 ↗</a>
+      <a href="https://www.asiainfo.com/en_us/content_4198.html"
+         target="_blank" rel="noopener noreferrer">Source 2 ↗</a>
+    </article>
+
+    <article class="aisware-feature">
+      <div class="aisware-feature-icon">↗</div>
+      <h4>RPA to IPA Evolution</h4>
+      <p>
+        Extends traditional automation with process-data anomaly discovery,
+        process-change identification and continuous knowledge accumulation.
+      </p>
+      <a href="https://www.asiainfo.com/en_us/content_3329.html"
+         target="_blank" rel="noopener noreferrer">Read source ↗</a>
+    </article>
+
+    <article class="aisware-feature">
+      <div class="aisware-feature-icon">⌘</div>
+      <h4>Non-Invasive Deployment</h4>
+      <p>
+        Designed to connect with existing enterprise applications while
+        minimizing the need for extensive architectural changes.
+      </p>
+      <a href="https://www.asiainfo.com/en_us/content_4198.html"
+         target="_blank" rel="noopener noreferrer">Read source ↗</a>
+    </article>
+
+    <article class="aisware-feature">
+      <div class="aisware-feature-icon">▦</div>
+      <h4>Industry Applications</h4>
+      <p>
+        Published application scenarios include telecommunications, finance,
+        industrial manufacturing and retail, with examples such as tax workflows,
+        order processing and 5G base-station quality inspections.
+      </p>
+      <a href="https://www.asiainfo.com/en_us/product_aisware_rpa_detail.html"
+         target="_blank" rel="noopener noreferrer">Product details ↗</a>
+      <a href="https://www.asiainfo.com/en_us/content_3509.html"
+         target="_blank" rel="noopener noreferrer">Industry examples ↗</a>
+    </article>
+
+    <article class="aisware-feature aisware-feature-wide">
+      <div class="aisware-feature-icon">✧</div>
+      <h4>Ecosystem &amp; Market Recognition</h4>
+      <p>
+        AsiaInfo's published materials describe AISWARE RPA's inclusion in
+        industry market research from Forrester and Gartner. The specific
+        report editions and wording should be verified against the original
+        publications during vendor due diligence.
+      </p>
+      <a href="https://www.asiainfo.com/en_us/content_3711.html"
+         target="_blank" rel="noopener noreferrer">Recognition details ↗</a>
+      <a href="https://www.asiainfo.com/en_us/content_4198.html"
+         target="_blank" rel="noopener noreferrer">Additional reference ↗</a>
+    </article>
+
+  </div>
+
+  <div class="aisware-note">
+    <strong>MPT evaluation focus</strong>
+    <p>
+      Validate Burmese-language OCR/NLP performance, telecom-system integration,
+      security controls, deployment architecture, operational resilience,
+      licensing costs and proof-of-concept results before selection.
+    </p>
+  </div>
+</div>
+
+<style>
+.aisware-capabilities {
+  margin-top: 20px;
+  border: 1px solid rgba(60,205,255,.25);
+  background: linear-gradient(
+    145deg,
+    rgba(13,35,61,.96),
+    rgba(7,17,34,.96)
+  );
+}
+.aisware-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.aisware-heading h3 {
+  margin: 8px 0;
+  font-size: 21px;
+}
+.aisware-hero {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid rgba(65,210,255,.24);
+  border-radius: 12px;
+  background: rgba(30,150,220,.08);
+}
+.aisware-hero-icon {
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(40,195,255,.15);
+  border: 1px solid rgba(60,210,255,.45);
+  color: #6ce5ff;
+  font-size: 23px;
+  font-weight: 800;
+}
+.aisware-hero h4 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+.aisware-hero p,
+.aisware-feature p,
+.aisware-note p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.8;
+  opacity: .78;
+}
+.aisware-capability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.aisware-feature {
+  min-width: 0;
+  padding: 17px;
+  border-radius: 10px;
+  border: 1px solid rgba(90,190,255,.16);
+  background: rgba(8,20,40,.65);
+}
+.aisware-feature-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 12px;
+  border-radius: 9px;
+  background: rgba(50,195,255,.12);
+  color: #69dcff;
+  font-size: 21px;
+}
+.aisware-feature h4 {
+  margin: 0 0 9px;
+  font-size: 14px;
+}
+.aisware-feature a {
+  display: inline-block;
+  margin: 12px 12px 0 0;
+  color: #69dcff;
+  font-size: 11px;
+  text-decoration: none;
+}
+.aisware-feature a:hover {
+  text-decoration: underline;
+}
+.aisware-feature-wide {
+  grid-column: 1 / -1;
+}
+.aisware-note {
+  margin-top: 16px;
+  padding: 16px;
+  border-left: 3px solid #35caff;
+  background: rgba(40,170,230,.07);
+  border-radius: 0 8px 8px 0;
+}
+.aisware-note strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #70dfff;
+}
+@media(max-width:650px) {
+  .aisware-capability-grid {
+    grid-template-columns: 1fr;
+  }
+  .aisware-feature-wide {
+    grid-column: auto;
+  }
+  .aisware-hero {
+    align-items: flex-start;
+    padding: 14px;
+  }
+}
+</style>
+<!-- END AISWARE CORE CAPABILITIES -->
+
+</main>
+</div>
+</div>
+</body>
+</html>
